@@ -6,7 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  players = [];
+  all_players = ["Erik", "Martin"]
 
   constructor() {}
-
 }

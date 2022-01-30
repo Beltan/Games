@@ -1,20 +1,21 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
+<ion-content>
   <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <ion-title> Select Players </ion-title>
+
+    <div>
+      <ion-list lines="none">
+        <ion-item *ngFor="let player of players">
+          <ion-label>{{player}}</ion-label>
+        </ion-item>
+      </ion-list>
+
+      <ion-select multiple>
+        <ion-select-option *ngFor="let player of all_players" value="{{player}}"
+          >{{player}}</ion-select-option
+        >
+      </ion-select>
+
+      <ion-button> <ion-icon name="sync"></ion-icon> Process </ion-button>
+    </div>
   </div>
 </ion-content>
