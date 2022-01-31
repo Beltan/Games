@@ -3,19 +3,13 @@
     <ion-title> Select Players </ion-title>
 
     <div>
-      <ion-list lines="none">
-        <ion-item *ngFor="let player of players">
-          <ion-label>{{player}}</ion-label>
-        </ion-item>
-      </ion-list>
-
-      <ion-select multiple>
+      <ion-select multiple (ionChange)="onChange($event)">
         <ion-select-option *ngFor="let player of all_players" value="{{player}}"
           >{{player}}</ion-select-option
         >
       </ion-select>
 
-      <ion-button> <ion-icon name="sync"></ion-icon> Process </ion-button>
+      <ion-button (click)="process()"> Process </ion-button>
     </div>
   </div>
 </ion-content>
