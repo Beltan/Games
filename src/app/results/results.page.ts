@@ -21,16 +21,21 @@ export class ResultsPage {
 
   ionViewWillEnter() {
     for (let i = 0; i < this.globals.games.length; i++) {
-      let max = 0;
-      let min = 10;
+      let max = -1;
+      let min = 11;
       let avg = 0;
       let sum_squares = 0;
+      let ignore = 0;
 
       for (let player of this.globals.players) {
-
         let player_index = this.globals.all_players.indexOf(player);
 
-        let current_score = this.globals.scores[player_index][i];
+        let current_score = this.globals.scores[i][player_index];
+
+        if (current_score == -1) {
+          ignore++;
+          continue;
+        }
 
         avg += current_score;
         sum_squares += current_score * current_score;
@@ -39,13 +44,16 @@ export class ResultsPage {
         if (current_score > max) max = current_score;
       }
 
-      avg = avg / this.globals.players.length;
+      avg = -1;
+      if (this.globals.players.length - ignore > 0) avg = avg / this.globals.players.length - ignore;
 
       this.avg_score.push(avg);
       this.max_score.push(max);
       this.min_score.push(min);
-      this.variance.push(sum_squares / (this.globals.players.length - 1));
-    }
 
+      let variance = -1;
+      if (this.globals.players.length - ignore - 1) variance = sum_squares / (this.globals.players.length - 1);
+      this.variance.push(variance);
+    }
   }
 }

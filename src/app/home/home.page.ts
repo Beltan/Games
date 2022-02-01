@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Globals } from '../globals';
 import * as XLSX from 'xlsx';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,10 @@ export class HomePage {
 
   constructor(private router: Router, globals: Globals) {
     this.globals = globals;
-    this.all_players = globals.all_players;
+  }
+
+  ionViewWillEnter() {
+    this.readExcel();
   }
 
   process() {
@@ -33,14 +37,13 @@ export class HomePage {
     this.globals.setPlayers(this.players);
   }
 
-  show_error() {
-    this.readExcel();
-  }
+  show_error() {}
 
   readExcel() {
     let oReq = new XMLHttpRequest();
     oReq.open('GET', './assets/Board Games Ratings.xlsx', true);
     oReq.responseType = 'arraybuffer';
+    let that = this;
     oReq.onload = function (e) {
       let arraybuffer = oReq.response;
       let data = new Uint8Array(arraybuffer);
@@ -51,12 +54,39 @@ export class HomePage {
       let workbook = XLSX.read(arr.join(''), { type: 'binary' });
 
       workbook.SheetNames.forEach(function (sheetName) {
-        // Here is your object
         var XL_row_object = XLSX.utils.sheet_to_json(
           workbook.Sheets[sheetName]
         );
-        var json_object = JSON.stringify(XL_row_object);
-        console.log(json_object);
+
+        if (sheetName == 'User Ratings') {
+          let players = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {
+            header: 1,
+          })[0];
+
+          that.globals.setAllPlayers(players);
+          that.globals.all_players.shift();
+          that.all_players = that.globals.all_players;
+
+          XL_row_object.forEach((element) => {
+            if (!element['Name']) return;
+            that.globals.addGame(element['Name']);
+
+            for (let i = 0; i < that.all_players.length; i++) {
+              let score = [];
+              if (element[that.all_players[i]]) {
+                if (typeof element[that.all_players[i]] == 'number') {
+                  score.push(element[that.all_players[i]]);
+                } else {
+                  score.push('-1');
+                }
+              } else {
+                score.push('-1');
+              }
+
+              that.globals.addScore(score);
+            }
+          });
+        }
       });
     };
     oReq.send();
