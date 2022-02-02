@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Globals } from '../globals';
 import * as XLSX from 'xlsx';
-import { element } from 'protractor';
 
 @Component({
   selector: 'app-home',
@@ -28,7 +27,7 @@ export class HomePage {
       this.show_error();
       return;
     }
-
+    console.log(this.globals);
     this.router.navigateByUrl('/results');
   }
 
@@ -41,7 +40,11 @@ export class HomePage {
 
   readExcel() {
     let oReq = new XMLHttpRequest();
-    oReq.open('GET', './assets/Board Games Ratings.xlsx', true);
+    oReq.open(
+      'GET',
+      'https://docs.google.com/spreadsheets/d/1VlPq-OnGEbIH6K-Azi_igEGTVZ4bI0DSLREn6Q0zR-E/export?format=xlsx&id=1VlPq-OnGEbIH6K-Azi_igEGTVZ4bI0DSLREn6Q0zR-E',
+      true
+    );
     oReq.responseType = 'arraybuffer';
     let that = this;
     oReq.onload = function (e) {
@@ -71,8 +74,8 @@ export class HomePage {
             if (!element['Name']) return;
             that.globals.addGame(element['Name']);
 
+            let score = [];
             for (let i = 0; i < that.all_players.length; i++) {
-              let score = [];
               if (element[that.all_players[i]]) {
                 if (typeof element[that.all_players[i]] == 'number') {
                   score.push(element[that.all_players[i]]);
@@ -82,9 +85,18 @@ export class HomePage {
               } else {
                 score.push('-1');
               }
-
-              that.globals.addScore(score);
             }
+            that.globals.addScore(score);
+          });
+        }
+
+        if (sheetName == 'Board Games') {
+          XL_row_object.forEach((element) => {
+            if (!element['Name']) return;
+
+            that.globals.addMaxPlayers(element['Max players']);
+            that.globals.addMinPlayers(element['Min players']);
+            that.globals.addPlayingTime(element['Playing time']);
           });
         }
       });

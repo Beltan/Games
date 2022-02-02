@@ -5,6 +5,9 @@ export class Globals {
   all_players = [];
   games = [];
   scores = [];
+  max_players = [];
+  min_players = [];
+  playing_time = [];
 
   players = [];
 
@@ -18,6 +21,18 @@ export class Globals {
 
   addScore(score) {
     this.scores.push(score);
+  }
+
+  addMaxPlayers(max) {
+    this.max_players.push(max);
+  }
+
+  addMinPlayers(min) {
+    this.min_players.push(min);
+  }
+
+  addPlayingTime(time) {
+    this.playing_time.push(time);
   }
 
   setAllPlayers(players) {

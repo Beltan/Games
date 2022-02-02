@@ -44,16 +44,19 @@ export class ResultsPage {
         if (current_score > max) max = current_score;
       }
 
-      avg = -1;
-      if (this.globals.players.length - ignore > 0) avg = avg / this.globals.players.length - ignore;
+      if (this.globals.players.length - ignore > 0) {
+        avg = avg / (this.globals.players.length - ignore);
+      } else {
+        avg = -1;
+      }
 
-      this.avg_score.push(avg);
+      this.avg_score.push(avg.toFixed(2));
       this.max_score.push(max);
       this.min_score.push(min);
 
       let variance = -1;
       if (this.globals.players.length - ignore - 1) variance = sum_squares / (this.globals.players.length - 1);
-      this.variance.push(variance);
+      this.variance.push(variance.toFixed(2));
     }
   }
 }

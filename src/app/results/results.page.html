@@ -1,5 +1,5 @@
 <ion-content>
-  <div id="container">
+  <div>
     <ion-title> Results </ion-title>
     <ion-grid>
       <ion-row>
@@ -17,6 +17,24 @@
         </ion-col>
         <ion-col>
           <div>Minimum</div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngFor="let game of this.globals.games; let i = index">
+        <ion-col>
+          <div>{{game}}</div>
+        </ion-col>
+        <ion-col>
+          <div>{{avg_score[i]}}</div>
+        </ion-col>
+        <ion-col>
+          <div>{{variance[i]}}</div>
+        </ion-col>
+        <ion-col>
+          <div>{{max_score[i]}}</div>
+        </ion-col>
+        <ion-col>
+          <div>{{min_score[i]}}</div>
         </ion-col>
       </ion-row>
     </ion-grid>
