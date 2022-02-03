@@ -1,40 +1,35 @@
 <ion-content>
   <div>
-    <ion-title> Results </ion-title>
     <ion-grid>
       <ion-row>
         <ion-col>
-          <div>Name</div>
+          <div class="center-text bold-text">Name</div>
         </ion-col>
         <ion-col>
-          <div>Average</div>
+          <div class="center-text bold-text">Ignored</div>
         </ion-col>
         <ion-col>
-          <div>Variance</div>
+          <div class="center-text bold-text">Average</div>
         </ion-col>
         <ion-col>
-          <div>Maximum</div>
-        </ion-col>
-        <ion-col>
-          <div>Minimum</div>
+          <div class="center-text bold-text">Variance</div>
         </ion-col>
       </ion-row>
 
-      <ion-row *ngFor="let game of this.globals.games; let i = index">
-        <ion-col>
-          <div>{{game}}</div>
+      <ion-row *ngFor="let game of allowed_games; let i = index">
+        <ion-col [ngClass]="(i % 2 == 0) ? 'odd' : 'even'">
+          <div>{{game.name}}</div>
         </ion-col>
-        <ion-col>
-          <div>{{avg_score[i]}}</div>
+        <ion-col class="center-text" [ngClass]="(i % 2 == 0) ? 'odd' : 'even'">
+          <div>{{game.ign}}</div>
         </ion-col>
-        <ion-col>
-          <div>{{variance[i]}}</div>
+        <ion-col class="center-text" [ngClass]="(i % 2 == 0) ? 'odd' : 'even'">
+          <div *ngIf="game.avg != -1">{{game.avg}}</div>
+          <div *ngIf="game.avg == -1">-</div>
         </ion-col>
-        <ion-col>
-          <div>{{max_score[i]}}</div>
-        </ion-col>
-        <ion-col>
-          <div>{{min_score[i]}}</div>
+        <ion-col class="center-text" [ngClass]="(i % 2 == 0) ? 'odd' : 'even'">
+          <div *ngIf="game.var != -1">{{game.var}}</div>
+          <div *ngIf="game.var == -1">-</div>
         </ion-col>
       </ion-row>
     </ion-grid>

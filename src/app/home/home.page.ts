@@ -19,7 +19,7 @@ export class HomePage {
   }
 
   ionViewWillEnter() {
-    this.readExcel();
+    if (this.globals.games.length == 0) this.readExcel();
   }
 
   process() {
@@ -27,7 +27,6 @@ export class HomePage {
       this.show_error();
       return;
     }
-    console.log(this.globals);
     this.router.navigateByUrl('/results');
   }
 
