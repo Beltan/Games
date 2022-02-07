@@ -75,7 +75,7 @@ export class HomePage {
 
             let score = [];
             for (let i = 0; i < that.all_players.length; i++) {
-              if (element[that.all_players[i]] != '') {
+              if (element[that.all_players[i]] !== '') {
                 if (typeof element[that.all_players[i]] == 'number') {
                   score.push(element[that.all_players[i]]);
                 } else {
