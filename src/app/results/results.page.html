@@ -1,37 +1,5 @@
 <ion-content>
-  <div>
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <div class="center-text bold-text">Name</div>
-        </ion-col>
-        <ion-col>
-          <div class="center-text bold-text">Ignored</div>
-        </ion-col>
-        <ion-col>
-          <div class="center-text bold-text">Average</div>
-        </ion-col>
-        <ion-col>
-          <div class="center-text bold-text">Variance</div>
-        </ion-col>
-      </ion-row>
-
-      <ion-row *ngFor="let game of allowedGames; let i = index">
-        <ion-col [ngClass]="(i % 2 === 0) ? 'odd' : 'even'">
-          <div>{{game.name}}</div>
-        </ion-col>
-        <ion-col class="center-text" [ngClass]="(i % 2 === 0) ? 'odd' : 'even'">
-          <div>{{game.ign}}</div>
-        </ion-col>
-        <ion-col class="center-text" [ngClass]="(i % 2 === 0) ? 'odd' : 'even'">
-          <div *ngIf="game.avg !== '-1.00'">{{game.avg}}</div>
-          <div *ngIf="game.avg === '-1.00'">-</div>
-        </ion-col>
-        <ion-col class="center-text" [ngClass]="(i % 2 === 0) ? 'odd' : 'even'">
-          <div *ngIf="game.var !== '-1.00'">{{game.var}}</div>
-          <div *ngIf="game.var === '-1.00'">-</div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+  <div class="container">
+    <ngx-datatable class="material" [rows]="allowedGames" [columns]="columns" [sorts]="[{prop: 'average', dir: 'desc'}]" [columnMode]="'forced'"></ngx-datatable>
   </div>
 </ion-content>

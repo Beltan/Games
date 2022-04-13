@@ -11,6 +11,12 @@ export class ResultsPage {
   globals: Globals;
 
   allowedGames = [];
+  columns = [
+    { name: 'Name', width: '200', cellClass: 'center-text' },
+    { name: 'Ignored', width: '75', cellClass: 'center-text' },
+    { name: 'Average', width: '75', cellClass: 'center-text' },
+    { name: 'Variance', width: '75', cellClass: 'center-text' },
+  ];
 
   constructor(private router: Router, globals: Globals) {
     this.globals = globals;
@@ -86,11 +92,11 @@ export class ResultsPage {
 
       const game = {
         name: this.globals.games[i],
-        avg: avg.toFixed(2),
+        average: avg !== -1 ? avg.toFixed(2) : '-',
         max: maximum,
         min: minimum,
-        var: variance.toFixed(2),
-        ign: ignore
+        variance: variance !== -1 ? variance.toFixed(2) : '-',
+        ignored: ignore,
       };
       this.allowedGames.push(game);
     }
