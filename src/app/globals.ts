@@ -2,14 +2,16 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class Globals {
-  all_players = [];
+  allPlayers = [];
   games = [];
   scores = [];
-  max_players = [];
-  min_players = [];
-  playing_time = [];
+  maxPlayers = [];
+  minPlayers = [];
+  playingTime = [];
 
   players = [];
+
+  constructor() {}
 
   setPlayers(players) {
     this.players = players;
@@ -24,20 +26,18 @@ export class Globals {
   }
 
   addMaxPlayers(max) {
-    this.max_players.push(max);
+    this.maxPlayers.push(max);
   }
 
   addMinPlayers(min) {
-    this.min_players.push(min);
+    this.minPlayers.push(min);
   }
 
   addPlayingTime(time) {
-    this.playing_time.push(time);
+    this.playingTime.push(time);
   }
 
   setAllPlayers(players) {
-    this.all_players = players;
+    this.allPlayers = players;
   }
-
-  constructor() {}
 }

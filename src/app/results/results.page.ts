@@ -10,45 +10,53 @@ import { Globals } from '../globals';
 export class ResultsPage {
   globals: Globals;
 
-  allowed_games = [];
+  allowedGames = [];
 
   constructor(private router: Router, globals: Globals) {
     this.globals = globals;
   }
 
   ionViewWillEnter() {
-    if (this.globals.games.length == 0) this.router.navigateByUrl('/home');
+    if (this.globals.games.length === 0) {
+      this.router.navigateByUrl('/home');
+    }
 
-    this.allowed_games = [];
+    this.allowedGames = [];
 
     for (let i = 0; i < this.globals.games.length; i++) {
-      if (!this.globals.max_players[i] || !this.globals.min_players[i])
+      if (!this.globals.maxPlayers[i] || !this.globals.minPlayers[i]) {
         continue;
+      }
       if (
-        this.globals.max_players[i] < this.globals.players.length ||
-        this.globals.min_players[i] > this.globals.players.length
-      )
+        this.globals.maxPlayers[i] < this.globals.players.length ||
+        this.globals.minPlayers[i] > this.globals.players.length
+      ) {
         continue;
+      }
 
-      let max = -1;
-      let min = 11;
+      let maximum = -1;
+      let minimum = 11;
       let avg = 0;
       let ignore = 0;
 
-      for (let player of this.globals.players) {
-        let player_index = this.globals.all_players.indexOf(player);
+      for (const player of this.globals.players) {
+        const playerIndex = this.globals.allPlayers.indexOf(player);
 
-        let current_score = this.globals.scores[i][player_index];
+        const currentScore = this.globals.scores[i][playerIndex];
 
-        if (current_score == -1) {
+        if (currentScore === -1) {
           ignore++;
           continue;
         }
 
-        avg += current_score;
+        avg += currentScore;
 
-        if (current_score < min) min = current_score;
-        if (current_score > max) max = current_score;
+        if (currentScore < minimum) {
+          minimum = currentScore;
+        }
+        if (currentScore > maximum) {
+          maximum = currentScore;
+        }
       }
 
       if (this.globals.players.length - ignore > 0) {
@@ -57,40 +65,43 @@ export class ResultsPage {
         avg = -1;
       }
 
-      let sum_squares = 0;
-      for (let player of this.globals.players) {
-        let player_index = this.globals.all_players.indexOf(player);
+      let sumSquares = 0;
+      for (const player of this.globals.players) {
+        const playerIndex = this.globals.allPlayers.indexOf(player);
 
-        let current_score = this.globals.scores[i][player_index];
+        const currentScore = this.globals.scores[i][playerIndex];
 
-        if (current_score == -1) {
+        if (currentScore === -1) {
           continue;
         }
 
-        let diff = avg - current_score;
-        sum_squares += diff * diff;
+        const diff = avg - currentScore;
+        sumSquares += diff * diff;
       }
 
       let variance = -1;
-      if (this.globals.players.length - ignore > 0)
-        variance = sum_squares / (this.globals.players.length - ignore);
+      if (this.globals.players.length - ignore > 0) {
+        variance = sumSquares / (this.globals.players.length - ignore);
+      }
 
-      let game = {
+      const game = {
         name: this.globals.games[i],
         avg: avg.toFixed(2),
-        max: max,
-        min: min,
+        max: maximum,
+        min: minimum,
         var: variance.toFixed(2),
         ign: ignore
       };
-      this.allowed_games.push(game);
+      this.allowedGames.push(game);
     }
 
-    this.allowed_games.sort(this.compare);
+    this.allowedGames.sort(this.compare);
   }
 
   compare(a, b) {
-    if (b.avg == a.avg) return a.var - b.var;
+    if (b.avg === a.avg) {
+      return a.var - b.var;
+    }
     return b.avg - a.avg;
   }
 }

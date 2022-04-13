@@ -16,20 +16,20 @@
         </ion-col>
       </ion-row>
 
-      <ion-row *ngFor="let game of allowed_games; let i = index">
-        <ion-col [ngClass]="(i % 2 == 0) ? 'odd' : 'even'">
+      <ion-row *ngFor="let game of allowedGames; let i = index">
+        <ion-col [ngClass]="(i % 2 === 0) ? 'odd' : 'even'">
           <div>{{game.name}}</div>
         </ion-col>
-        <ion-col class="center-text" [ngClass]="(i % 2 == 0) ? 'odd' : 'even'">
+        <ion-col class="center-text" [ngClass]="(i % 2 === 0) ? 'odd' : 'even'">
           <div>{{game.ign}}</div>
         </ion-col>
-        <ion-col class="center-text" [ngClass]="(i % 2 == 0) ? 'odd' : 'even'">
-          <div *ngIf="game.avg != -1">{{game.avg}}</div>
-          <div *ngIf="game.avg == -1">-</div>
+        <ion-col class="center-text" [ngClass]="(i % 2 === 0) ? 'odd' : 'even'">
+          <div *ngIf="game.avg !== '-1.00'">{{game.avg}}</div>
+          <div *ngIf="game.avg === '-1.00'">-</div>
         </ion-col>
-        <ion-col class="center-text" [ngClass]="(i % 2 == 0) ? 'odd' : 'even'">
-          <div *ngIf="game.var != -1">{{game.var}}</div>
-          <div *ngIf="game.var == -1">-</div>
+        <ion-col class="center-text" [ngClass]="(i % 2 === 0) ? 'odd' : 'even'">
+          <div *ngIf="game.var !== '-1.00'">{{game.var}}</div>
+          <div *ngIf="game.var === '-1.00'">-</div>
         </ion-col>
       </ion-row>
     </ion-grid>

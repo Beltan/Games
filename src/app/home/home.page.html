@@ -4,7 +4,7 @@
 
     <div>
       <ion-select id="selector_center" multiple (ionChange)="onChange($event)">
-        <ion-select-option *ngFor="let player of all_players" value="{{player}}"
+        <ion-select-option *ngFor="let player of allPlayers" value="{{player}}"
           >{{player}}</ion-select-option
         >
       </ion-select>
