@@ -6907,6 +6907,7 @@ let ResultsPage = class ResultsPage {
         this.allowedGames = [];
         this.filteredGames = [];
         this.currentFilter = '';
+        this.filteringByOwned = false;
         this.columns = [
             { name: 'Name', width: '150', cellClass: 'center-text' },
             { name: 'Ignored', width: '75', cellClass: 'center-text' },
@@ -6993,15 +6994,27 @@ let ResultsPage = class ResultsPage {
         this.currentFilter = filter;
     }
     searchFilter(filter) {
-        this.filteredGames = [];
-        for (const game of this.allowedGames) {
-            if (game.name.toLowerCase().indexOf(filter) !== -1) {
-                this.filteredGames.push(game);
+        if (filter === '') {
+            this.filteredGames = this.allowedGames;
+        }
+        else {
+            this.filteredGames = [];
+            for (const game of this.allowedGames) {
+                if (game.name.toLowerCase().indexOf(filter) !== -1) {
+                    this.filteredGames.push(game);
+                }
             }
         }
+        if (this.filteringByOwned) {
+            this.filterByOwned();
+        }
     }
-    toggle(event) {
-        if (event.detail.checked) {
+    toggle() {
+        this.filteringByOwned = !this.filteringByOwned;
+        this.filterByOwned();
+    }
+    filterByOwned() {
+        if (this.filteringByOwned) {
             this.filteredGames = this.filteredGames.filter((game) => {
                 if (game.owners[0] === 'All' ||
                     this.globals.players.filter((value) => game.owners.includes(value))
@@ -7041,7 +7054,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<ion-content>\n  <div class=\"container\">\n    <div id=\"inputs\">\n      <input\n        type=\"text\"\n        placeholder=\"Search...\"\n        (keyup)=\"filterDatatable($event)\"\n      />\n      <ion-item lines=\"none\" >\n        <ion-label>Owned</ion-label>\n        <ion-checkbox (ionChange)=\"toggle($event)\" slot=\"start\"></ion-checkbox>\n      </ion-item>\n    </div>\n    <ngx-datatable\n      class=\"material\"\n      [rows]=\"filteredGames\"\n      [columns]=\"columns\"\n      [sorts]=\"[{prop: 'average', dir: 'desc'}]\"\n      [columnMode]=\"'forced'\"\n    ></ngx-datatable>\n  </div>\n</ion-content>\n");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<ion-content>\n  <div class=\"container\">\n    <div id=\"inputs\">\n      <input\n        type=\"text\"\n        placeholder=\"Search...\"\n        (keyup)=\"filterDatatable($event)\"\n      />\n      <ion-item lines=\"none\" >\n        <ion-label>Owned</ion-label>\n        <ion-checkbox (ionChange)=\"toggle()\" slot=\"start\"></ion-checkbox>\n      </ion-item>\n    </div>\n    <ngx-datatable\n      class=\"material\"\n      [rows]=\"filteredGames\"\n      [columns]=\"columns\"\n      [sorts]=\"[{prop: 'average', dir: 'desc'}]\"\n      [columnMode]=\"'forced'\"\n    ></ngx-datatable>\n  </div>\n</ion-content>\n");
 
 /***/ }),
 
