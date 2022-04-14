@@ -8,6 +8,7 @@ export class Globals {
   maxPlayers = [];
   minPlayers = [];
   playingTime = [];
+  owners = [];
 
   players = [];
 
@@ -35,6 +36,11 @@ export class Globals {
 
   addPlayingTime(time) {
     this.playingTime.push(time);
+  }
+
+  addOwnedBy(owners) {
+    const ownersArray = owners ? owners.trim().split(',') : [];
+    this.owners.push(ownersArray);
   }
 
   setAllPlayers(players) {

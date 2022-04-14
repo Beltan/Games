@@ -11,6 +11,8 @@ export class ResultsPage {
   globals: Globals;
 
   allowedGames = [];
+  filteredGames = [];
+  currentFilter = '';
   columns = [
     { name: 'Name', width: '200', cellClass: 'center-text' },
     { name: 'Ignored', width: '75', cellClass: 'center-text' },
@@ -97,11 +99,13 @@ export class ResultsPage {
         min: minimum,
         variance: variance !== -1 ? variance.toFixed(2) : '-',
         ignored: ignore,
+        owners: this.globals.owners[i],
       };
       this.allowedGames.push(game);
     }
 
     this.allowedGames.sort(this.compare);
+    this.filteredGames = this.allowedGames;
   }
 
   compare(a, b) {
@@ -109,5 +113,37 @@ export class ResultsPage {
       return a.var - b.var;
     }
     return b.avg - a.avg;
+  }
+
+  filterDatatable(event) {
+    const filter = event.target.value.toLowerCase();
+    this.searchFilter(filter);
+    this.currentFilter = filter;
+  }
+
+  searchFilter(filter) {
+    this.filteredGames = [];
+
+    for (const game of this.allowedGames) {
+      if (game.name.toLowerCase().indexOf(filter) !== -1) {
+        this.filteredGames.push(game);
+      }
+    }
+  }
+
+  toggle(event) {
+    if (event.detail.checked) {
+      this.filteredGames = this.filteredGames.filter((game) => {
+        if (
+          game.owners[0] === 'All' ||
+          this.globals.players.filter((value) => game.owners.includes(value))
+            .length !== 0
+        ) {
+          return game;
+        }
+      });
+    } else {
+      this.searchFilter(this.currentFilter);
+    }
   }
 }

@@ -102,6 +102,7 @@ export class HomePage {
             that.globals.addMaxPlayers(element['Max players']);
             that.globals.addMinPlayers(element['Min players']);
             that.globals.addPlayingTime(element['Playing time']);
+            that.globals.addOwnedBy(element['Owned by']);
           });
         }
       });

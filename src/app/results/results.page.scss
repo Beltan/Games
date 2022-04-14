@@ -2,3 +2,21 @@
   margin: auto;
   width: 425px;
 }
+
+#inputs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+ion-checkbox {
+  margin: 0px 5px;
+}
+
+ion-label {
+  margin: 0px;
+}
+
+ion-item {
+  --min-height: 30px;
+}

@@ -1,5 +1,22 @@
 <ion-content>
   <div class="container">
-    <ngx-datatable class="material" [rows]="allowedGames" [columns]="columns" [sorts]="[{prop: 'average', dir: 'desc'}]" [columnMode]="'forced'"></ngx-datatable>
+    <div id="inputs">
+      <input
+        type="text"
+        placeholder="Search..."
+        (keyup)="filterDatatable($event)"
+      />
+      <ion-item lines="none" >
+        <ion-label>Filter by owned</ion-label>
+        <ion-checkbox (ionChange)="toggle($event)" slot="start"></ion-checkbox>
+      </ion-item>
+    </div>
+    <ngx-datatable
+      class="material"
+      [rows]="filteredGames"
+      [columns]="columns"
+      [sorts]="[{prop: 'average', dir: 'desc'}]"
+      [columnMode]="'forced'"
+    ></ngx-datatable>
   </div>
 </ion-content>
