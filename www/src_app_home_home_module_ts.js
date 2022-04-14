@@ -33934,6 +33934,7 @@ let HomePage = class HomePage {
         this.router = router;
         this.players = [];
         this.allPlayers = [];
+        this.errorDisplay = 'none';
         this.globals = globals;
     }
     ionViewWillEnter() {
@@ -33951,8 +33952,19 @@ let HomePage = class HomePage {
     onChange(e) {
         this.players = e.detail.value;
         this.globals.setPlayers(this.players);
+        if (this.players.length !== 0) {
+            this.hideError();
+        }
+        else {
+            this.showError();
+        }
     }
-    showError() { }
+    showError() {
+        this.errorDisplay = 'block';
+    }
+    hideError() {
+        this.errorDisplay = 'none';
+    }
     readExcel() {
         const oReq = new XMLHttpRequest();
         oReq.open('GET', 'https://docs.google.com/spreadsheets/d/1VlPq-OnGEbIH6K-Azi_igEGTVZ4bI0DSLREn6Q0zR-E/export?format=xlsx&id=1VlPq-OnGEbIH6K-Azi_igEGTVZ4bI0DSLREn6Q0zR-E', true);
@@ -34040,7 +34052,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<ion-content>\n  <div id=\"container\">\n    <div>\n      <ion-label id=\"title\"> Select Players </ion-label>\n\n      <ion-select id=\"selector_center\" multiple (ionChange)=\"onChange($event)\">\n        <ion-select-option *ngFor=\"let player of allPlayers\" value=\"{{player}}\"\n          >{{player}}</ion-select-option\n        >\n      </ion-select>\n\n      <ion-button (click)=\"process()\"> Process </ion-button>\n    </div>\n  </div>\n</ion-content>\n");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<ion-content>\n  <div id=\"container\">\n    <div>\n      <ion-label id=\"title\"> Select Players </ion-label>\n\n      <ion-select id=\"selector_center\" multiple (ionChange)=\"onChange($event)\">\n        <ion-select-option *ngFor=\"let player of allPlayers\" value=\"{{player}}\"\n          >{{player}}</ion-select-option\n        >\n      </ion-select>\n\n      <ion-button (click)=\"process()\"> Process </ion-button>\n\n      <ion-label id=\"error\" [style.display]=errorDisplay> Select at least 1 player</ion-label>\n    </div>\n  </div>\n</ion-content>\n");
 
 /***/ }),
 
@@ -34051,7 +34063,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ ((module) => {
 
 "use strict";
-module.exports = "#container {\n  text-align: center;\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 50%;\n  transform: translateY(-50%);\n}\n#container strong {\n  font-size: 20px;\n  line-height: 26px;\n}\n#container p {\n  font-size: 16px;\n  line-height: 22px;\n  color: #8c8c8c;\n  margin: 0;\n}\n#container a {\n  text-decoration: none;\n}\n#selector_center {\n  width: fit-content;\n  margin: auto;\n}\n#title {\n  font-weight: bold;\n  font-size: 20px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImhvbWUucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0Usa0JBQUE7RUFFQSxrQkFBQTtFQUNBLE9BQUE7RUFDQSxRQUFBO0VBQ0EsUUFBQTtFQUNBLDJCQUFBO0FBQUY7QUFFRTtFQUNFLGVBQUE7RUFDQSxpQkFBQTtBQUFKO0FBR0U7RUFDRSxlQUFBO0VBQ0EsaUJBQUE7RUFFQSxjQUFBO0VBRUEsU0FBQTtBQUhKO0FBTUU7RUFDRSxxQkFBQTtBQUpKO0FBUUE7RUFDRSxrQkFBQTtFQUNBLFlBQUE7QUFMRjtBQVFBO0VBQ0UsaUJBQUE7RUFDQSxlQUFBO0FBTEYiLCJmaWxlIjoiaG9tZS5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIjY29udGFpbmVyIHtcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xuXG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgbGVmdDogMDtcbiAgcmlnaHQ6IDA7XG4gIHRvcDogNTAlO1xuICB0cmFuc2Zvcm06IHRyYW5zbGF0ZVkoLTUwJSk7XG5cbiAgc3Ryb25nIHtcbiAgICBmb250LXNpemU6IDIwcHg7XG4gICAgbGluZS1oZWlnaHQ6IDI2cHg7XG4gIH1cblxuICBwIHtcbiAgICBmb250LXNpemU6IDE2cHg7XG4gICAgbGluZS1oZWlnaHQ6IDIycHg7XG5cbiAgICBjb2xvcjogIzhjOGM4YztcblxuICAgIG1hcmdpbjogMDtcbiAgfVxuXG4gIGEge1xuICAgIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcbiAgfVxufVxuXG4jc2VsZWN0b3JfY2VudGVyIHtcbiAgd2lkdGg6IGZpdC1jb250ZW50O1xuICBtYXJnaW46IGF1dG87XG59XG5cbiN0aXRsZSB7XG4gIGZvbnQtd2VpZ2h0OiBib2xkO1xuICBmb250LXNpemU6IDIwcHg7XG59XG4iXX0= */";
+module.exports = "#container {\n  text-align: center;\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 50%;\n  transform: translateY(-50%);\n}\n#container strong {\n  font-size: 20px;\n  line-height: 26px;\n}\n#container p {\n  font-size: 16px;\n  line-height: 22px;\n  color: #8c8c8c;\n  margin: 0;\n}\n#container a {\n  text-decoration: none;\n}\n#selector_center {\n  width: fit-content;\n  margin: auto;\n}\n#title {\n  font-weight: bold;\n  font-size: 20px;\n}\n#error {\n  color: red;\n  margin-top: 10px;\n  font-size: 14px;\n  position: absolute;\n  left: 50%;\n  transform: translate(-50%);\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImhvbWUucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0Usa0JBQUE7RUFFQSxrQkFBQTtFQUNBLE9BQUE7RUFDQSxRQUFBO0VBQ0EsUUFBQTtFQUNBLDJCQUFBO0FBQUY7QUFFRTtFQUNFLGVBQUE7RUFDQSxpQkFBQTtBQUFKO0FBR0U7RUFDRSxlQUFBO0VBQ0EsaUJBQUE7RUFFQSxjQUFBO0VBRUEsU0FBQTtBQUhKO0FBTUU7RUFDRSxxQkFBQTtBQUpKO0FBUUE7RUFDRSxrQkFBQTtFQUNBLFlBQUE7QUFMRjtBQVFBO0VBQ0UsaUJBQUE7RUFDQSxlQUFBO0FBTEY7QUFRQTtFQUNFLFVBQUE7RUFDQSxnQkFBQTtFQUNBLGVBQUE7RUFDQSxrQkFBQTtFQUNBLFNBQUE7RUFDQSwwQkFBQTtBQUxGIiwiZmlsZSI6ImhvbWUucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiI2NvbnRhaW5lciB7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcblxuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGxlZnQ6IDA7XG4gIHJpZ2h0OiAwO1xuICB0b3A6IDUwJTtcbiAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKC01MCUpO1xuXG4gIHN0cm9uZyB7XG4gICAgZm9udC1zaXplOiAyMHB4O1xuICAgIGxpbmUtaGVpZ2h0OiAyNnB4O1xuICB9XG5cbiAgcCB7XG4gICAgZm9udC1zaXplOiAxNnB4O1xuICAgIGxpbmUtaGVpZ2h0OiAyMnB4O1xuXG4gICAgY29sb3I6ICM4YzhjOGM7XG5cbiAgICBtYXJnaW46IDA7XG4gIH1cblxuICBhIHtcbiAgICB0ZXh0LWRlY29yYXRpb246IG5vbmU7XG4gIH1cbn1cblxuI3NlbGVjdG9yX2NlbnRlciB7XG4gIHdpZHRoOiBmaXQtY29udGVudDtcbiAgbWFyZ2luOiBhdXRvO1xufVxuXG4jdGl0bGUge1xuICBmb250LXdlaWdodDogYm9sZDtcbiAgZm9udC1zaXplOiAyMHB4O1xufVxuXG4jZXJyb3Ige1xuICBjb2xvcjogcmVkO1xuICBtYXJnaW4tdG9wOiAxMHB4O1xuICBmb250LXNpemU6IDE0cHg7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgbGVmdDogNTAlO1xuICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlKTtcbn0iXX0= */";
 
 /***/ }),
 
