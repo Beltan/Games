@@ -13,6 +13,7 @@ export class HomePage {
 
   players = [];
   allPlayers = [];
+  errorDisplay = 'none';
 
   constructor(private router: Router, globals: Globals) {
     this.globals = globals;
@@ -35,9 +36,21 @@ export class HomePage {
   onChange(e) {
     this.players = e.detail.value;
     this.globals.setPlayers(this.players);
+
+    if (this.players.length !== 0) {
+      this.hideError();
+    } else {
+      this.showError();
+    }
   }
 
-  showError() {}
+  showError() {
+    this.errorDisplay = 'block';
+  }
+
+  hideError() {
+    this.errorDisplay = 'none';
+  }
 
   readExcel() {
     const oReq = new XMLHttpRequest();
