@@ -6908,7 +6908,7 @@ let ResultsPage = class ResultsPage {
         this.filteredGames = [];
         this.currentFilter = '';
         this.columns = [
-            { name: 'Name', width: '200', cellClass: 'center-text' },
+            { name: 'Name', width: '150', cellClass: 'center-text' },
             { name: 'Ignored', width: '75', cellClass: 'center-text' },
             { name: 'Average', width: '75', cellClass: 'center-text' },
             { name: 'Variance', width: '75', cellClass: 'center-text' },
@@ -7041,7 +7041,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<ion-content>\n  <div class=\"container\">\n    <div id=\"inputs\">\n      <input\n        type=\"text\"\n        placeholder=\"Search...\"\n        (keyup)=\"filterDatatable($event)\"\n      />\n      <ion-item lines=\"none\" >\n        <ion-label>Filter by owned</ion-label>\n        <ion-checkbox (ionChange)=\"toggle($event)\" slot=\"start\"></ion-checkbox>\n      </ion-item>\n    </div>\n    <ngx-datatable\n      class=\"material\"\n      [rows]=\"filteredGames\"\n      [columns]=\"columns\"\n      [sorts]=\"[{prop: 'average', dir: 'desc'}]\"\n      [columnMode]=\"'forced'\"\n    ></ngx-datatable>\n  </div>\n</ion-content>\n");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<ion-content>\n  <div class=\"container\">\n    <div id=\"inputs\">\n      <input\n        type=\"text\"\n        placeholder=\"Search...\"\n        (keyup)=\"filterDatatable($event)\"\n      />\n      <ion-item lines=\"none\" >\n        <ion-label>Owned</ion-label>\n        <ion-checkbox (ionChange)=\"toggle($event)\" slot=\"start\"></ion-checkbox>\n      </ion-item>\n    </div>\n    <ngx-datatable\n      class=\"material\"\n      [rows]=\"filteredGames\"\n      [columns]=\"columns\"\n      [sorts]=\"[{prop: 'average', dir: 'desc'}]\"\n      [columnMode]=\"'forced'\"\n    ></ngx-datatable>\n  </div>\n</ion-content>\n");
 
 /***/ }),
 
@@ -7051,7 +7051,7 @@ __webpack_require__.r(__webpack_exports__);
   \*******************************************/
 /***/ ((module) => {
 
-module.exports = ".container {\n  margin: auto;\n  width: 425px;\n}\n\n#inputs {\n  display: flex;\n  justify-content: space-between;\n  margin-bottom: 10px;\n}\n\nion-checkbox {\n  margin: 0px 5px;\n}\n\nion-label {\n  margin: 0px;\n}\n\nion-item {\n  --min-height: 30px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInJlc3VsdHMucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsWUFBQTtFQUNBLFlBQUE7QUFDRjs7QUFFQTtFQUNFLGFBQUE7RUFDQSw4QkFBQTtFQUNBLG1CQUFBO0FBQ0Y7O0FBRUE7RUFDRSxlQUFBO0FBQ0Y7O0FBRUE7RUFDRSxXQUFBO0FBQ0Y7O0FBRUE7RUFDRSxrQkFBQTtBQUNGIiwiZmlsZSI6InJlc3VsdHMucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmNvbnRhaW5lciB7XG4gIG1hcmdpbjogYXV0bztcbiAgd2lkdGg6IDQyNXB4O1xufVxuXG4jaW5wdXRzIHtcbiAgZGlzcGxheTogZmxleDtcbiAganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuO1xuICBtYXJnaW4tYm90dG9tOiAxMHB4O1xufVxuXG5pb24tY2hlY2tib3gge1xuICBtYXJnaW46IDBweCA1cHg7XG59XG5cbmlvbi1sYWJlbCB7XG4gIG1hcmdpbjogMHB4O1xufVxuXG5pb24taXRlbSB7XG4gIC0tbWluLWhlaWdodDogMzBweDtcbn0iXX0= */";
+module.exports = ".container {\n  margin: auto;\n  width: 375px;\n}\n\n#inputs {\n  display: flex;\n  justify-content: space-between;\n  margin-bottom: 10px;\n}\n\nion-checkbox {\n  margin: 0px 5px;\n}\n\nion-label {\n  margin: 0px;\n}\n\nion-item {\n  --min-height: 30px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInJlc3VsdHMucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsWUFBQTtFQUNBLFlBQUE7QUFDRjs7QUFFQTtFQUNFLGFBQUE7RUFDQSw4QkFBQTtFQUNBLG1CQUFBO0FBQ0Y7O0FBRUE7RUFDRSxlQUFBO0FBQ0Y7O0FBRUE7RUFDRSxXQUFBO0FBQ0Y7O0FBRUE7RUFDRSxrQkFBQTtBQUNGIiwiZmlsZSI6InJlc3VsdHMucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmNvbnRhaW5lciB7XG4gIG1hcmdpbjogYXV0bztcbiAgd2lkdGg6IDM3NXB4O1xufVxuXG4jaW5wdXRzIHtcbiAgZGlzcGxheTogZmxleDtcbiAganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuO1xuICBtYXJnaW4tYm90dG9tOiAxMHB4O1xufVxuXG5pb24tY2hlY2tib3gge1xuICBtYXJnaW46IDBweCA1cHg7XG59XG5cbmlvbi1sYWJlbCB7XG4gIG1hcmdpbjogMHB4O1xufVxuXG5pb24taXRlbSB7XG4gIC0tbWluLWhlaWdodDogMzBweDtcbn0iXX0= */";
 
 /***/ })
 
