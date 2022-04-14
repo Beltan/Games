@@ -6909,10 +6909,10 @@ let ResultsPage = class ResultsPage {
         this.currentFilter = '';
         this.filteringByOwned = false;
         this.columns = [
-            { name: 'Name', width: '150', cellClass: 'center-text' },
-            { name: 'Ignored', width: '75', cellClass: 'center-text' },
-            { name: 'Average', width: '75', cellClass: 'center-text' },
-            { name: 'Variance', width: '75', cellClass: 'center-text' },
+            { name: 'Name', width: '140', cellClass: 'center-text' },
+            { name: 'Ignored', width: '70', cellClass: 'center-text' },
+            { name: 'Average', width: '70', cellClass: 'center-text' },
+            { name: 'Variance', width: '70', cellClass: 'center-text' },
         ];
         this.globals = globals;
     }
@@ -7064,7 +7064,7 @@ __webpack_require__.r(__webpack_exports__);
   \*******************************************/
 /***/ ((module) => {
 
-module.exports = ".container {\n  margin: auto;\n  width: 375px;\n}\n\n#inputs {\n  display: flex;\n  justify-content: space-between;\n  margin: 10px 5px;\n}\n\nion-checkbox {\n  margin: 0px 5px;\n}\n\nion-label {\n  margin: 0px;\n}\n\nion-item {\n  --min-height: 30px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInJlc3VsdHMucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsWUFBQTtFQUNBLFlBQUE7QUFDRjs7QUFFQTtFQUNFLGFBQUE7RUFDQSw4QkFBQTtFQUNBLGdCQUFBO0FBQ0Y7O0FBRUE7RUFDRSxlQUFBO0FBQ0Y7O0FBRUE7RUFDRSxXQUFBO0FBQ0Y7O0FBRUE7RUFDRSxrQkFBQTtBQUNGIiwiZmlsZSI6InJlc3VsdHMucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmNvbnRhaW5lciB7XG4gIG1hcmdpbjogYXV0bztcbiAgd2lkdGg6IDM3NXB4O1xufVxuXG4jaW5wdXRzIHtcbiAgZGlzcGxheTogZmxleDtcbiAganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuO1xuICBtYXJnaW46IDEwcHggNXB4O1xufVxuXG5pb24tY2hlY2tib3gge1xuICBtYXJnaW46IDBweCA1cHg7XG59XG5cbmlvbi1sYWJlbCB7XG4gIG1hcmdpbjogMHB4O1xufVxuXG5pb24taXRlbSB7XG4gIC0tbWluLWhlaWdodDogMzBweDtcbn0iXX0= */";
+module.exports = ".container {\n  margin: auto;\n  width: 350px;\n}\n\n#inputs {\n  display: flex;\n  justify-content: space-between;\n  margin: 10px 5px;\n}\n\nion-checkbox {\n  margin: 0px 5px;\n}\n\nion-label {\n  margin: 0px;\n}\n\nion-item {\n  --min-height: 30px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInJlc3VsdHMucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsWUFBQTtFQUNBLFlBQUE7QUFDRjs7QUFFQTtFQUNFLGFBQUE7RUFDQSw4QkFBQTtFQUNBLGdCQUFBO0FBQ0Y7O0FBRUE7RUFDRSxlQUFBO0FBQ0Y7O0FBRUE7RUFDRSxXQUFBO0FBQ0Y7O0FBRUE7RUFDRSxrQkFBQTtBQUNGIiwiZmlsZSI6InJlc3VsdHMucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmNvbnRhaW5lciB7XG4gIG1hcmdpbjogYXV0bztcbiAgd2lkdGg6IDM1MHB4O1xufVxuXG4jaW5wdXRzIHtcbiAgZGlzcGxheTogZmxleDtcbiAganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuO1xuICBtYXJnaW46IDEwcHggNXB4O1xufVxuXG5pb24tY2hlY2tib3gge1xuICBtYXJnaW46IDBweCA1cHg7XG59XG5cbmlvbi1sYWJlbCB7XG4gIG1hcmdpbjogMHB4O1xufVxuXG5pb24taXRlbSB7XG4gIC0tbWluLWhlaWdodDogMzBweDtcbn0iXX0= */";
 
 /***/ })
 

@@ -15,10 +15,10 @@ export class ResultsPage {
   currentFilter = '';
   filteringByOwned = false;
   columns = [
-    { name: 'Name', width: '150', cellClass: 'center-text' },
-    { name: 'Ignored', width: '75', cellClass: 'center-text' },
-    { name: 'Average', width: '75', cellClass: 'center-text' },
-    { name: 'Variance', width: '75', cellClass: 'center-text' },
+    { name: 'Name', width: '140', cellClass: 'center-text' },
+    { name: 'Ignored', width: '70', cellClass: 'center-text' },
+    { name: 'Average', width: '70', cellClass: 'center-text' },
+    { name: 'Variance', width: '70', cellClass: 'center-text' },
   ];
 
   constructor(private router: Router, globals: Globals) {
