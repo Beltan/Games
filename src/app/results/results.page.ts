@@ -13,6 +13,7 @@ export class ResultsPage {
   allowedGames = [];
   filteredGames = [];
   currentFilter = '';
+  filteringByOwned = false;
   columns = [
     { name: 'Name', width: '150', cellClass: 'center-text' },
     { name: 'Ignored', width: '75', cellClass: 'center-text' },
@@ -122,17 +123,31 @@ export class ResultsPage {
   }
 
   searchFilter(filter) {
-    this.filteredGames = [];
+    if (filter === '') {
+      this.filteredGames = this.allowedGames;
+    }
+    else {
+      this.filteredGames = [];
 
-    for (const game of this.allowedGames) {
-      if (game.name.toLowerCase().indexOf(filter) !== -1) {
-        this.filteredGames.push(game);
+      for (const game of this.allowedGames) {
+        if (game.name.toLowerCase().indexOf(filter) !== -1) {
+          this.filteredGames.push(game);
+        }
       }
+    }
+
+    if (this.filteringByOwned) {
+      this.filterByOwned();
     }
   }
 
-  toggle(event) {
-    if (event.detail.checked) {
+  toggle() {
+    this.filteringByOwned = !this.filteringByOwned;
+    this.filterByOwned();
+  }
+
+  filterByOwned() {
+    if (this.filteringByOwned) {
       this.filteredGames = this.filteredGames.filter((game) => {
         if (
           game.owners[0] === 'All' ||
