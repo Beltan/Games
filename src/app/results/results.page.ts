@@ -14,7 +14,7 @@ export class ResultsPage {
   filteredGames = [];
   currentFilter = '';
   columns = [
-    { name: 'Name', width: '200', cellClass: 'center-text' },
+    { name: 'Name', width: '150', cellClass: 'center-text' },
     { name: 'Ignored', width: '75', cellClass: 'center-text' },
     { name: 'Average', width: '75', cellClass: 'center-text' },
     { name: 'Variance', width: '75', cellClass: 'center-text' },
