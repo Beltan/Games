@@ -6,17 +6,71 @@
         placeholder="Search..."
         (keyup)="filterDatatable($event)"
       />
-      <ion-item lines="none" >
+      <ion-item lines="none">
         <ion-label>Owned</ion-label>
-        <ion-checkbox (ionChange)="toggle()" slot="start"></ion-checkbox>
+        <ion-checkbox (ionChange)="toggleOwned()" slot="start"></ion-checkbox>
       </ion-item>
     </div>
-    <ngx-datatable
-      class="material"
-      [rows]="filteredGames"
-      [columns]="columns"
-      [sorts]="[{prop: 'average', dir: 'desc'}]"
-      [columnMode]="'forced'"
-    ></ngx-datatable>
   </div>
+
+  <ion-row class="header-row">
+    <ion-col size="4" class="center-text" (click)="sortBy('name')">
+      <ion-item lines="none" class="ion-text-center">
+        <ion-label>Name</ion-label>
+        <ion-icon
+          name="arrow-down"
+          *ngIf="sortDirection === 0 && sortKey === 'name'"
+        ></ion-icon>
+        <ion-icon
+          name="arrow-up"
+          *ngIf="sortDirection === 1 && sortKey === 'name'"
+        ></ion-icon>
+      </ion-item>
+    </ion-col>
+    <ion-col size="2" class="center-text" (click)="sortBy('ignored')">
+      <ion-item lines="none" class="ion-text-center">
+        <ion-label>Ign</ion-label>
+        <ion-icon
+          name="arrow-down"
+          *ngIf="sortDirection === 0 && sortKey === 'ignored'"
+        ></ion-icon>
+        <ion-icon
+          name="arrow-up"
+          *ngIf="sortDirection === 1 && sortKey === 'ignored'"
+        ></ion-icon>
+      </ion-item>
+    </ion-col>
+    <ion-col size="3" class="center-text" (click)="sortBy('average')">
+      <ion-item lines="none" class="ion-text-center">
+        <ion-label>Avg</ion-label>
+        <ion-icon
+          name="arrow-down"
+          *ngIf="sortDirection === 0 && sortKey === 'average'"
+        ></ion-icon>
+        <ion-icon
+          name="arrow-up"
+          *ngIf="sortDirection === 1 && sortKey === 'average'"
+        ></ion-icon>
+      </ion-item>
+    </ion-col>
+    <ion-col size="3" class="center-text" (click)="sortBy('variance')">
+      <ion-item lines="none" class="ion-text-center">
+        <ion-label>Var</ion-label>
+        <ion-icon
+          name="arrow-down"
+          *ngIf="sortDirection === 0 && sortKey === 'variance'"
+        ></ion-icon>
+        <ion-icon
+          name="arrow-up"
+          *ngIf="sortDirection === 1 && sortKey === 'variance'"
+        ></ion-icon>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-row *ngFor="let row of filteredGames; let i = index;" class="data-row">
+    <ion-col size="4"> {{ row.name }} </ion-col>
+    <ion-col size="2" class="center-text"> {{ row.ignored }} </ion-col>
+    <ion-col size="3" class="center-text"> {{ row.average }} </ion-col>
+    <ion-col size="3" class="center-text"> {{ row.variance }} </ion-col>
+  </ion-row>
 </ion-content>

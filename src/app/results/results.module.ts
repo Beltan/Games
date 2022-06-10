@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ResultsPageRoutingModule } from './results-routing.module';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ResultsPage } from './results.page';
 
 @NgModule({
@@ -11,8 +10,7 @@ import { ResultsPage } from './results.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    ResultsPageRoutingModule,
-    NgxDatatableModule
+    ResultsPageRoutingModule
   ],
   declarations: [ResultsPage]
 })

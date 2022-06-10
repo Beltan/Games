@@ -13,13 +13,10 @@ export class ResultsPage {
   allowedGames = [];
   filteredGames = [];
   currentFilter = '';
+  sortDirection = 0;
+  sortKey = null;
   filteringByOwned = false;
-  columns = [
-    { name: 'Name', width: '140', cellClass: 'center-text' },
-    { name: 'Ignored', width: '70', cellClass: 'center-text' },
-    { name: 'Average', width: '70', cellClass: 'center-text' },
-    { name: 'Variance', width: '70', cellClass: 'center-text' },
-  ];
+  filteringByIgnored = false;
 
   constructor(private router: Router, globals: Globals) {
     this.globals = globals;
@@ -99,21 +96,14 @@ export class ResultsPage {
         max: maximum,
         min: minimum,
         variance: variance !== -1 ? variance.toFixed(2) : '-',
-        ignored: ignore,
+        ignored: ignore.toFixed(0),
         owners: this.globals.owners[i],
       };
       this.allowedGames.push(game);
     }
 
-    this.allowedGames.sort(this.compare);
     this.filteredGames = this.allowedGames;
-  }
-
-  compare(a, b) {
-    if (b.avg === a.avg) {
-      return a.var - b.var;
-    }
-    return b.avg - a.avg;
+    this.sortBy('average');
   }
 
   filterDatatable(event) {
@@ -125,8 +115,7 @@ export class ResultsPage {
   searchFilter(filter) {
     if (filter === '') {
       this.filteredGames = this.allowedGames;
-    }
-    else {
+    } else {
       this.filteredGames = [];
 
       for (const game of this.allowedGames) {
@@ -141,9 +130,32 @@ export class ResultsPage {
     }
   }
 
-  toggle() {
+  toggleOwned() {
     this.filteringByOwned = !this.filteringByOwned;
     this.filterByOwned();
+  }
+
+  sortBy(key) {
+    this.sortKey = key;
+    this.sort();
+  }
+
+  sort() {
+    if (this.sortDirection === 0) {
+      this.filteredGames = this.filteredGames.sort((a, b) => {
+        const valA = a[this.sortKey];
+        const valB = b[this.sortKey];
+        return valA.localeCompare(valB, 'en', { numeric: true });
+      });
+      this.sortDirection++;
+    } else if (this.sortDirection === 1) {
+      this.filteredGames = this.filteredGames.sort((a, b) => {
+        const valA = a[this.sortKey];
+        const valB = b[this.sortKey];
+        return valB.localeCompare(valA, 'en', { numeric: true });
+      });
+      this.sortDirection--;
+    }
   }
 
   filterByOwned() {

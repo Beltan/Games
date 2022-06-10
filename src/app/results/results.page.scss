@@ -1,12 +1,14 @@
+$results-background-color: #9DC6C6;
+
 .container {
-  margin: auto;
-  width: 350px;
+  width: 100%;
+  background-color: $results-background-color;
 }
 
 #inputs {
   display: flex;
   justify-content: space-between;
-  margin: 10px 5px;
+  padding: 10px 5px;
 }
 
 ion-checkbox {
@@ -19,4 +21,26 @@ ion-label {
 
 ion-item {
   --min-height: 30px;
+  --inner-padding-end: 0px;
+  --color: #fff;
+  --ion-item-background: $results-background-color;
+
+  font-weight: bold;
+}
+
+.header-row {
+  background-color: $results-background-color;
+}
+
+.data-row {
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+.data-row:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.center-text {
+  text-align: center;
 }

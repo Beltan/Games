@@ -24,31 +24,3 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
-
-@import "~@swimlane/ngx-datatable/index.css";
-@import "~@swimlane/ngx-datatable/themes/material.scss";
-@import "~@swimlane/ngx-datatable/assets/icons.css";
-
-.center-text {
-  line-height: 0px !important;
-  padding: 0.9rem 0.3rem !important;
-}
-
-.datatable-header-cell {
-  line-height: 30px !important;
-  padding: 0px !important;
-}
-
-.datatable-header-cell-template-wrap {
-  text-align: center;
-  font-weight: bold;
-  font-size: 14px;
-}
-
-.datatable-row-even {
-  background-color: #dcdcdc;
-}
-
-.datatable-body-row {
-  pointer-events: none;
-}
