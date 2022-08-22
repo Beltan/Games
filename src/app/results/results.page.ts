@@ -10,13 +10,13 @@ import { Globals } from '../globals';
 export class ResultsPage {
   globals: Globals;
 
-  allowedGames = [];
-  filteredGames = [];
-  currentFilter = '';
-  sortDirection = 0;
-  sortKey = null;
-  filteringByOwned = false;
-  filteringByIgnored = false;
+  allowedGames;
+  filteredGames;
+  currentFilter;
+  sortDirection;
+  sortKey;
+  filteringByOwned;
+  filteringByIgnored;
 
   constructor(private router: Router, globals: Globals) {
     this.globals = globals;
@@ -28,6 +28,11 @@ export class ResultsPage {
     }
 
     this.allowedGames = [];
+    this.filteredGames = [];
+    this.currentFilter = '';
+    this.sortDirection = 1;
+    this.filteringByOwned = false;
+    this.filteringByIgnored = false;
 
     for (let i = 0; i < this.globals.games.length; i++) {
       if (!this.globals.maxPlayers[i] || !this.globals.minPlayers[i]) {
