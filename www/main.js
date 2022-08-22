@@ -173,7 +173,9 @@ let Globals = class Globals {
         this.playingTime.push(time);
     }
     addOwnedBy(owners) {
-        const ownersArray = owners ? owners.trim().split(',') : [];
+        const ownersArray = owners
+            ? owners.split(',').map((item) => item.trim())
+            : [];
         this.owners.push(ownersArray);
     }
     setAllPlayers(players) {

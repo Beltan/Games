@@ -105,13 +105,6 @@ __webpack_require__.r(__webpack_exports__);
 let ResultsPage = class ResultsPage {
     constructor(router, globals) {
         this.router = router;
-        this.allowedGames = [];
-        this.filteredGames = [];
-        this.currentFilter = '';
-        this.sortDirection = 0;
-        this.sortKey = null;
-        this.filteringByOwned = false;
-        this.filteringByIgnored = false;
         this.globals = globals;
     }
     ionViewWillEnter() {
@@ -119,6 +112,11 @@ let ResultsPage = class ResultsPage {
             this.router.navigateByUrl('/home');
         }
         this.allowedGames = [];
+        this.filteredGames = [];
+        this.currentFilter = '';
+        this.sortDirection = 1;
+        this.filteringByOwned = false;
+        this.filteringByIgnored = false;
         for (let i = 0; i < this.globals.games.length; i++) {
             if (!this.globals.maxPlayers[i] || !this.globals.minPlayers[i]) {
                 continue;
