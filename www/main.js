@@ -153,9 +153,13 @@ let Globals = class Globals {
         this.playingTime = [];
         this.owners = [];
         this.players = [];
+        this.totalPlayers = 0;
     }
     setPlayers(players) {
         this.players = players;
+    }
+    setTotalPlayers(extraPlayers) {
+        this.totalPlayers = parseInt(extraPlayers, 10) + this.players.length;
     }
     addGame(game) {
         this.games.push(game);
