@@ -9,13 +9,17 @@ export class Globals {
   minPlayers = [];
   playingTime = [];
   owners = [];
-
   players = [];
+  totalPlayers = 0;
 
   constructor() {}
 
   setPlayers(players) {
     this.players = players;
+  }
+
+  setTotalPlayers(extraPlayers) {
+    this.totalPlayers = parseInt(extraPlayers, 10) + this.players.length;
   }
 
   addGame(game) {

@@ -17,6 +17,7 @@ export class ResultsPage {
   sortKey;
   filteringByOwned;
   filteringByIgnored;
+  extraPlayers;
 
   constructor(private router: Router, globals: Globals) {
     this.globals = globals;
@@ -33,14 +34,15 @@ export class ResultsPage {
     this.sortDirection = 1;
     this.filteringByOwned = false;
     this.filteringByIgnored = false;
+    this.extraPlayers = this.globals.totalPlayers - this.globals.players.length;
 
     for (let i = 0; i < this.globals.games.length; i++) {
       if (!this.globals.maxPlayers[i] || !this.globals.minPlayers[i]) {
         continue;
       }
       if (
-        this.globals.maxPlayers[i] < this.globals.players.length ||
-        this.globals.minPlayers[i] > this.globals.players.length
+        this.globals.maxPlayers[i] < this.globals.totalPlayers ||
+        this.globals.minPlayers[i] > this.globals.totalPlayers
       ) {
         continue;
       }
@@ -101,7 +103,7 @@ export class ResultsPage {
         max: maximum,
         min: minimum,
         variance: variance !== -1 ? variance.toFixed(2) : '-',
-        ignored: ignore.toFixed(0),
+        ignored: (ignore + this.extraPlayers).toFixed(0),
         owners: this.globals.owners[i],
       };
       this.allowedGames.push(game);

@@ -26,14 +26,22 @@
   }
 }
 
-#selector_center {
+.center {
   width: fit-content;
   margin: auto;
 }
+.number_input {
+  width: 50px;
+}
 
-#title {
+.title {
   font-weight: bold;
   font-size: 20px;
+}
+
+.subtitle {
+  font-weight: bold;
+  font-size: 16px;
 }
 
 #error {

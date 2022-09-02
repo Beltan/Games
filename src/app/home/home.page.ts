@@ -13,6 +13,7 @@ export class HomePage {
 
   players = [];
   allPlayers = [];
+  extraPlayers = 0;
   errorDisplay = 'none';
 
   constructor(private router: Router, globals: Globals) {
@@ -26,18 +27,29 @@ export class HomePage {
   }
 
   process() {
-    if (this.players.length === 0) {
+    if (this.globals.totalPlayers === 0) {
       this.showError();
       return;
     }
     this.router.navigateByUrl('/results');
   }
 
+  onChangeExtraPlayers(e) {
+    this.extraPlayers = e.detail.value;
+    this.globals.setTotalPlayers(this.extraPlayers);
+
+    this.updateErrorMessage();
+  }
+
   onChange(e) {
     this.players = e.detail.value;
     this.globals.setPlayers(this.players);
 
-    if (this.players.length !== 0) {
+    this.updateErrorMessage();
+  }
+
+  updateErrorMessage() {
+    if (this.globals.totalPlayers > 0) {
       this.hideError();
     } else {
       this.showError();
@@ -71,9 +83,7 @@ export class HomePage {
       const workbook = XLSX.read(arr.join(''), { type: 'binary' });
 
       workbook.SheetNames.forEach((sheetName) => {
-        const rowObject = XLSX.utils.sheet_to_json(
-          workbook.Sheets[sheetName]
-        );
+        const rowObject = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
 
         if (sheetName === 'User Ratings') {
           const players = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {

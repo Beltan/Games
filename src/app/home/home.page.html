@@ -1,17 +1,28 @@
 <ion-content>
   <div id="container">
     <div>
-      <ion-label id="title"> Select Players </ion-label>
+      <ion-label class="title"> Select Players </ion-label>
 
-      <ion-select id="selector_center" multiple (ionChange)="onChange($event)">
+      <ion-select class="center" multiple (ionChange)="onChange($event)">
         <ion-select-option *ngFor="let player of allPlayers" value="{{player}}"
           >{{player}}</ion-select-option
         >
       </ion-select>
 
+      <ion-label class="subtitle"> Extra Players </ion-label>
+      <ion-input
+        type="number"
+        min="0"
+        value="{{extraPlayers}}"
+        class="center number_input"
+        (ionChange)="onChangeExtraPlayers($event)"
+      ></ion-input>
+
       <ion-button (click)="process()"> Process </ion-button>
 
-      <ion-label id="error" [style.display]=errorDisplay> Select at least 1 player</ion-label>
+      <ion-label id="error" [style.display]="errorDisplay">
+        Select at least 1 player</ion-label
+      >
     </div>
   </div>
 </ion-content>
