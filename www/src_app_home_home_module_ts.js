@@ -33958,6 +33958,7 @@ let HomePage = class HomePage {
     onChange(e) {
         this.players = e.detail.value;
         this.globals.setPlayers(this.players);
+        this.globals.setTotalPlayers(this.extraPlayers);
         this.updateErrorMessage();
     }
     updateErrorMessage() {
