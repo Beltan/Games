@@ -34056,9 +34056,6 @@ let HomePage = class HomePage {
                         });
                         break;
                     }
-                    default: {
-                        break;
-                    }
                 }
             });
         };

@@ -152,9 +152,6 @@ export class HomePage {
             });
             break;
           }
-          default: {
-            break;
-          }
         }
       });
     };

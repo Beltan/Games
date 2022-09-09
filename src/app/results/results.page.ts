@@ -61,7 +61,8 @@ export class ResultsPage {
         const playerIndex = this.globals.allPlayers.indexOf(player);
 
         const currentBaseScore = this.globals.baseScores[i][playerIndex];
-        const currentRelativeScore = this.globals.relativeScores[i][playerIndex];
+        const currentRelativeScore =
+          this.globals.relativeScores[i][playerIndex];
 
         if (currentBaseScore === -1) {
           ignore++;
@@ -101,7 +102,8 @@ export class ResultsPage {
         const playerIndex = this.globals.allPlayers.indexOf(player);
 
         const currentBaseScore = this.globals.baseScores[i][playerIndex];
-        const currentRelativeScore = this.globals.relativeScores[i][playerIndex];
+        const currentRelativeScore =
+          this.globals.relativeScores[i][playerIndex];
 
         if (currentBaseScore === -1) {
           continue;
@@ -130,7 +132,8 @@ export class ResultsPage {
         baseMinimum: baseMin,
         relativeMinimum: relativeMin,
         baseVariance: baseVariance !== -1 ? baseVariance.toFixed(2) : '-',
-        relativeVariance: relativeVariance !== -1 ? relativeVariance.toFixed(2) : '-',
+        relativeVariance:
+          relativeVariance !== -1 ? relativeVariance.toFixed(2) : '-',
         ignored: (ignore + this.extraPlayers).toFixed(0),
         owners: this.globals.owners[i],
       };
@@ -167,6 +170,33 @@ export class ResultsPage {
 
   toggleScores() {
     this.baseScores = !this.baseScores;
+    this.reverseSortDirection();
+
+    switch (this.sortKey) {
+      case 'baseAverage':
+        this.sortBy('relativeAverage');
+        break;
+      case 'baseVariance':
+        this.sortBy('relativeVariance');
+        break;
+      case 'relativeAverage':
+        this.sortBy('baseAverage');
+        break;
+      case 'relativeVariance':
+        this.sortBy('baseVariance');
+        break;
+      default:
+        this.reverseSortDirection();
+        break;
+    }
+  }
+
+  reverseSortDirection() {
+    if (this.sortDirection === 0) {
+      this.sortDirection++;
+    } else if (this.sortDirection === 1) {
+      this.sortDirection--;
+    }
   }
 
   toggleOwned() {
