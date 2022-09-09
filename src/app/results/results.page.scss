@@ -7,6 +7,7 @@ $results-background-color: #9DC6C6;
 
 #inputs {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   padding: 10px 5px;
 }
