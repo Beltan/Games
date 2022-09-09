@@ -145,9 +145,12 @@ __webpack_require__.r(__webpack_exports__);
 
 let Globals = class Globals {
     constructor() {
+        this.id = '1VlPq-OnGEbIH6K-Azi_igEGTVZ4bI0DSLREn6Q0zR-E';
+        this.url = `https://docs.google.com/spreadsheets/d/${this.id}/export?format=xlsx&id=${this.id}`;
         this.allPlayers = [];
         this.games = [];
-        this.scores = [];
+        this.baseScores = [];
+        this.relativeScores = [];
         this.maxPlayers = [];
         this.minPlayers = [];
         this.playingTime = [];
@@ -164,8 +167,11 @@ let Globals = class Globals {
     addGame(game) {
         this.games.push(game);
     }
-    addScore(score) {
-        this.scores.push(score);
+    addBaseScore(score) {
+        this.baseScores.push(score);
+    }
+    addRelativeScore(score) {
+        this.relativeScores.push(score);
     }
     addMaxPlayers(max) {
         this.maxPlayers.push(max);

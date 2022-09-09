@@ -2,9 +2,13 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class Globals {
+  id = '1VlPq-OnGEbIH6K-Azi_igEGTVZ4bI0DSLREn6Q0zR-E';
+  url = `https://docs.google.com/spreadsheets/d/${this.id}/export?format=xlsx&id=${this.id}`;
+
   allPlayers = [];
   games = [];
-  scores = [];
+  baseScores = [];
+  relativeScores = [];
   maxPlayers = [];
   minPlayers = [];
   playingTime = [];
@@ -26,8 +30,12 @@ export class Globals {
     this.games.push(game);
   }
 
-  addScore(score) {
-    this.scores.push(score);
+  addBaseScore(score) {
+    this.baseScores.push(score);
+  }
+
+  addRelativeScore(score) {
+    this.relativeScores.push(score);
   }
 
   addMaxPlayers(max) {

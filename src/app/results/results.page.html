@@ -7,6 +7,12 @@
         (keyup)="filterDatatable($event)"
       />
       <ion-item lines="none">
+        <ion-label
+          >{{ baseScores ? "Base Scores" : "Relative Scores" }}
+        </ion-label>
+        <ion-toggle (ionChange)="toggleScores()" slot="start"></ion-toggle>
+      </ion-item>
+      <ion-item lines="none">
         <ion-label>Owned</ion-label>
         <ion-checkbox (ionChange)="toggleOwned()" slot="start"></ion-checkbox>
       </ion-item>
@@ -70,7 +76,11 @@
   <ion-row *ngFor="let row of filteredGames; let i = index;" class="data-row">
     <ion-col size="4"> {{ row.name }} </ion-col>
     <ion-col size="2" class="center-text"> {{ row.ignored }} </ion-col>
-    <ion-col size="3" class="center-text"> {{ row.average }} </ion-col>
-    <ion-col size="3" class="center-text"> {{ row.variance }} </ion-col>
+    <ion-col size="3" class="center-text">
+      {{ baseScores ? row.baseAverage : row.relativeAverage }}
+    </ion-col>
+    <ion-col size="3" class="center-text">
+      {{ baseScores ? row.baseVariance : row.relativeVariance }}
+    </ion-col>
   </ion-row>
 </ion-content>

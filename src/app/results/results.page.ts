@@ -18,6 +18,7 @@ export class ResultsPage {
   filteringByOwned;
   filteringByIgnored;
   extraPlayers;
+  baseScores;
 
   constructor(private router: Router, globals: Globals) {
     this.globals = globals;
@@ -35,6 +36,7 @@ export class ResultsPage {
     this.filteringByOwned = false;
     this.filteringByIgnored = false;
     this.extraPlayers = this.globals.totalPlayers - this.globals.players.length;
+    this.baseScores = true;
 
     for (let i = 0; i < this.globals.games.length; i++) {
       if (!this.globals.maxPlayers[i] || !this.globals.minPlayers[i]) {
@@ -47,62 +49,88 @@ export class ResultsPage {
         continue;
       }
 
-      let maximum = -1;
-      let minimum = 11;
-      let avg = 0;
+      let baseMax = -1;
+      let relativeMax = -1;
+      let baseMin = 11;
+      let relativeMin = 99999999;
+      let baseAvg = 0;
+      let relativeAvg = 0;
       let ignore = 0;
 
       for (const player of this.globals.players) {
         const playerIndex = this.globals.allPlayers.indexOf(player);
 
-        const currentScore = this.globals.scores[i][playerIndex];
+        const currentBaseScore = this.globals.baseScores[i][playerIndex];
+        const currentRelativeScore = this.globals.relativeScores[i][playerIndex];
 
-        if (currentScore === -1) {
+        if (currentBaseScore === -1) {
           ignore++;
           continue;
         }
 
-        avg += currentScore;
+        baseAvg += currentBaseScore;
+        relativeAvg += currentRelativeScore;
 
-        if (currentScore < minimum) {
-          minimum = currentScore;
+        if (currentBaseScore < baseMin) {
+          baseMin = currentBaseScore;
         }
-        if (currentScore > maximum) {
-          maximum = currentScore;
+        if (currentBaseScore > baseMax) {
+          baseMax = currentBaseScore;
+        }
+
+        if (currentRelativeScore < relativeMin) {
+          relativeMin = currentRelativeScore;
+        }
+        if (currentRelativeScore > relativeMax) {
+          relativeMax = currentRelativeScore;
         }
       }
 
-      if (this.globals.players.length - ignore > 0) {
-        avg = avg / (this.globals.players.length - ignore);
+      const knownPlayers = this.globals.players.length - ignore;
+      if (knownPlayers > 0) {
+        baseAvg = baseAvg / knownPlayers;
+        relativeAvg = relativeAvg / knownPlayers;
       } else {
-        avg = -1;
+        baseAvg = -1;
+        relativeAvg = -1;
       }
 
-      let sumSquares = 0;
+      let baseSumSquares = 0;
+      let relativeSumSquares = 0;
       for (const player of this.globals.players) {
         const playerIndex = this.globals.allPlayers.indexOf(player);
 
-        const currentScore = this.globals.scores[i][playerIndex];
+        const currentBaseScore = this.globals.baseScores[i][playerIndex];
+        const currentRelativeScore = this.globals.relativeScores[i][playerIndex];
 
-        if (currentScore === -1) {
+        if (currentBaseScore === -1) {
           continue;
         }
 
-        const diff = avg - currentScore;
-        sumSquares += diff * diff;
+        const baseDiff = baseAvg - currentBaseScore;
+        baseSumSquares += baseDiff * baseDiff;
+
+        const relativeDiff = relativeAvg - currentRelativeScore;
+        relativeSumSquares += relativeDiff * relativeDiff;
       }
 
-      let variance = -1;
-      if (this.globals.players.length - ignore > 0) {
-        variance = sumSquares / (this.globals.players.length - ignore);
+      let baseVariance = -1;
+      let relativeVariance = -1;
+      if (knownPlayers > 0) {
+        baseVariance = baseSumSquares / knownPlayers;
+        relativeVariance = relativeSumSquares / knownPlayers;
       }
 
       const game = {
         name: this.globals.games[i],
-        average: avg !== -1 ? avg.toFixed(2) : '-',
-        max: maximum,
-        min: minimum,
-        variance: variance !== -1 ? variance.toFixed(2) : '-',
+        baseAverage: baseAvg !== -1 ? baseAvg.toFixed(2) : '-',
+        relativeAverage: relativeAvg !== -1 ? relativeAvg.toFixed(2) : '-',
+        baseMaximum: baseMax,
+        relativeMaximum: relativeMax,
+        baseMinimum: baseMin,
+        relativeMinimum: relativeMin,
+        baseVariance: baseVariance !== -1 ? baseVariance.toFixed(2) : '-',
+        relativeVariance: relativeVariance !== -1 ? relativeVariance.toFixed(2) : '-',
         ignored: (ignore + this.extraPlayers).toFixed(0),
         owners: this.globals.owners[i],
       };
@@ -110,7 +138,7 @@ export class ResultsPage {
     }
 
     this.filteredGames = this.allowedGames;
-    this.sortBy('average');
+    this.sortBy('baseAverage');
   }
 
   filterDatatable(event) {
@@ -135,6 +163,10 @@ export class ResultsPage {
     if (this.filteringByOwned) {
       this.filterByOwned();
     }
+  }
+
+  toggleScores() {
+    this.baseScores = !this.baseScores;
   }
 
   toggleOwned() {

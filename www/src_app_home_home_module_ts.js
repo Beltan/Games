@@ -33977,7 +33977,7 @@ let HomePage = class HomePage {
     }
     readExcel() {
         const oReq = new XMLHttpRequest();
-        oReq.open('GET', 'https://docs.google.com/spreadsheets/d/1VlPq-OnGEbIH6K-Azi_igEGTVZ4bI0DSLREn6Q0zR-E/export?format=xlsx&id=1VlPq-OnGEbIH6K-Azi_igEGTVZ4bI0DSLREn6Q0zR-E', true);
+        oReq.open('GET', this.globals.url, true);
         oReq.responseType = 'arraybuffer';
         const that = this;
         oReq.onload = () => {
@@ -33990,45 +33990,75 @@ let HomePage = class HomePage {
             const workbook = xlsx__WEBPACK_IMPORTED_MODULE_3__.read(arr.join(''), { type: 'binary' });
             workbook.SheetNames.forEach((sheetName) => {
                 const rowObject = xlsx__WEBPACK_IMPORTED_MODULE_3__.utils.sheet_to_json(workbook.Sheets[sheetName]);
-                if (sheetName === 'User Ratings') {
-                    const players = xlsx__WEBPACK_IMPORTED_MODULE_3__.utils.sheet_to_json(workbook.Sheets[sheetName], {
-                        header: 1,
-                    })[0];
-                    that.globals.setAllPlayers(players);
-                    that.globals.allPlayers.shift();
-                    that.allPlayers = that.globals.allPlayers;
-                    rowObject.forEach((element) => {
-                        if (!element.Name) {
-                            return;
-                        }
-                        that.globals.addGame(element.Name);
-                        const score = [];
-                        for (const [index, player] of that.allPlayers.entries()) {
-                            if (element[that.allPlayers[index]] !== '') {
-                                if (typeof element[that.allPlayers[index]] === 'number') {
-                                    score.push(element[that.allPlayers[index]]);
+                switch (sheetName) {
+                    case 'User Ratings': {
+                        const players = xlsx__WEBPACK_IMPORTED_MODULE_3__.utils.sheet_to_json(workbook.Sheets[sheetName], {
+                            header: 1,
+                        })[0];
+                        that.globals.setAllPlayers(players);
+                        that.globals.allPlayers.shift();
+                        that.allPlayers = that.globals.allPlayers;
+                        rowObject.forEach((element) => {
+                            if (!element.Name) {
+                                return;
+                            }
+                            that.globals.addGame(element.Name);
+                            const score = [];
+                            for (const [index, player] of that.allPlayers.entries()) {
+                                if (element[that.allPlayers[index]] !== '') {
+                                    if (typeof element[that.allPlayers[index]] === 'number') {
+                                        score.push(element[that.allPlayers[index]]);
+                                    }
+                                    else {
+                                        score.push(-1);
+                                    }
                                 }
                                 else {
                                     score.push(-1);
                                 }
                             }
-                            else {
-                                score.push(-1);
+                            that.globals.addBaseScore(score);
+                        });
+                        break;
+                    }
+                    case 'Relative Ratings': {
+                        rowObject.forEach((element) => {
+                            if (!element.Name) {
+                                return;
                             }
-                        }
-                        that.globals.addScore(score);
-                    });
-                }
-                if (sheetName === 'Board Games') {
-                    rowObject.forEach((element) => {
-                        if (!element.Name) {
-                            return;
-                        }
-                        that.globals.addMaxPlayers(element['Max players']);
-                        that.globals.addMinPlayers(element['Min players']);
-                        that.globals.addPlayingTime(element['Playing time']);
-                        that.globals.addOwnedBy(element['Owned by']);
-                    });
+                            const score = [];
+                            for (const [index, player] of that.allPlayers.entries()) {
+                                if (element[that.allPlayers[index]] !== '') {
+                                    if (typeof element[that.allPlayers[index]] === 'number') {
+                                        score.push(element[that.allPlayers[index]]);
+                                    }
+                                    else {
+                                        score.push(-1);
+                                    }
+                                }
+                                else {
+                                    score.push(-1);
+                                }
+                            }
+                            that.globals.addRelativeScore(score);
+                        });
+                        break;
+                    }
+                    case 'Board Games': {
+                        rowObject.forEach((element) => {
+                            if (!element.Name) {
+                                return;
+                            }
+                            that.globals.addMaxPlayers(element['Max players']);
+                            that.globals.addMinPlayers(element['Min players']);
+                            that.globals.addPlayingTime(element['Playing time']);
+                            that.globals.addOwnedBy(element['Owned by']);
+                        });
+                        break;
+                    }
+                    default: {
+                        break;
+                    }
                 }
             });
         };

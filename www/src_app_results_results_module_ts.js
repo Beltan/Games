@@ -118,6 +118,7 @@ let ResultsPage = class ResultsPage {
         this.filteringByOwned = false;
         this.filteringByIgnored = false;
         this.extraPlayers = this.globals.totalPlayers - this.globals.players.length;
+        this.baseScores = true;
         for (let i = 0; i < this.globals.games.length; i++) {
             if (!this.globals.maxPlayers[i] || !this.globals.minPlayers[i]) {
                 continue;
@@ -126,58 +127,82 @@ let ResultsPage = class ResultsPage {
                 this.globals.minPlayers[i] > this.globals.totalPlayers) {
                 continue;
             }
-            let maximum = -1;
-            let minimum = 11;
-            let avg = 0;
+            let baseMax = -1;
+            let relativeMax = -1;
+            let baseMin = 11;
+            let relativeMin = 99999999;
+            let baseAvg = 0;
+            let relativeAvg = 0;
             let ignore = 0;
             for (const player of this.globals.players) {
                 const playerIndex = this.globals.allPlayers.indexOf(player);
-                const currentScore = this.globals.scores[i][playerIndex];
-                if (currentScore === -1) {
+                const currentBaseScore = this.globals.baseScores[i][playerIndex];
+                const currentRelativeScore = this.globals.relativeScores[i][playerIndex];
+                if (currentBaseScore === -1) {
                     ignore++;
                     continue;
                 }
-                avg += currentScore;
-                if (currentScore < minimum) {
-                    minimum = currentScore;
+                baseAvg += currentBaseScore;
+                relativeAvg += currentRelativeScore;
+                if (currentBaseScore < baseMin) {
+                    baseMin = currentBaseScore;
                 }
-                if (currentScore > maximum) {
-                    maximum = currentScore;
+                if (currentBaseScore > baseMax) {
+                    baseMax = currentBaseScore;
+                }
+                if (currentRelativeScore < relativeMin) {
+                    relativeMin = currentRelativeScore;
+                }
+                if (currentRelativeScore > relativeMax) {
+                    relativeMax = currentRelativeScore;
                 }
             }
-            if (this.globals.players.length - ignore > 0) {
-                avg = avg / (this.globals.players.length - ignore);
+            const knownPlayers = this.globals.players.length - ignore;
+            if (knownPlayers > 0) {
+                baseAvg = baseAvg / knownPlayers;
+                relativeAvg = relativeAvg / knownPlayers;
             }
             else {
-                avg = -1;
+                baseAvg = -1;
+                relativeAvg = -1;
             }
-            let sumSquares = 0;
+            let baseSumSquares = 0;
+            let relativeSumSquares = 0;
             for (const player of this.globals.players) {
                 const playerIndex = this.globals.allPlayers.indexOf(player);
-                const currentScore = this.globals.scores[i][playerIndex];
-                if (currentScore === -1) {
+                const currentBaseScore = this.globals.baseScores[i][playerIndex];
+                const currentRelativeScore = this.globals.relativeScores[i][playerIndex];
+                if (currentBaseScore === -1) {
                     continue;
                 }
-                const diff = avg - currentScore;
-                sumSquares += diff * diff;
+                const baseDiff = baseAvg - currentBaseScore;
+                baseSumSquares += baseDiff * baseDiff;
+                const relativeDiff = relativeAvg - currentRelativeScore;
+                relativeSumSquares += relativeDiff * relativeDiff;
             }
-            let variance = -1;
-            if (this.globals.players.length - ignore > 0) {
-                variance = sumSquares / (this.globals.players.length - ignore);
+            let baseVariance = -1;
+            let relativeVariance = -1;
+            if (knownPlayers > 0) {
+                baseVariance = baseSumSquares / knownPlayers;
+                relativeVariance = relativeSumSquares / knownPlayers;
             }
             const game = {
                 name: this.globals.games[i],
-                average: avg !== -1 ? avg.toFixed(2) : '-',
-                max: maximum,
-                min: minimum,
-                variance: variance !== -1 ? variance.toFixed(2) : '-',
+                baseAverage: baseAvg !== -1 ? baseAvg.toFixed(2) : '-',
+                relativeAverage: relativeAvg !== -1 ? relativeAvg.toFixed(2) : '-',
+                baseMaximum: baseMax,
+                relativeMaximum: relativeMax,
+                baseMinimum: baseMin,
+                relativeMinimum: relativeMin,
+                baseVariance: baseVariance !== -1 ? baseVariance.toFixed(2) : '-',
+                relativeVariance: relativeVariance !== -1 ? relativeVariance.toFixed(2) : '-',
                 ignored: (ignore + this.extraPlayers).toFixed(0),
                 owners: this.globals.owners[i],
             };
             this.allowedGames.push(game);
         }
         this.filteredGames = this.allowedGames;
-        this.sortBy('average');
+        this.sortBy('baseAverage');
     }
     filterDatatable(event) {
         const filter = event.target.value.toLowerCase();
@@ -199,6 +224,9 @@ let ResultsPage = class ResultsPage {
         if (this.filteringByOwned) {
             this.filterByOwned();
         }
+    }
+    toggleScores() {
+        this.baseScores = !this.baseScores;
     }
     toggleOwned() {
         this.filteringByOwned = !this.filteringByOwned;
@@ -267,7 +295,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<ion-content>\n  <div class=\"container\">\n    <div id=\"inputs\">\n      <input\n        type=\"text\"\n        placeholder=\"Search...\"\n        (keyup)=\"filterDatatable($event)\"\n      />\n      <ion-item lines=\"none\">\n        <ion-label>Owned</ion-label>\n        <ion-checkbox (ionChange)=\"toggleOwned()\" slot=\"start\"></ion-checkbox>\n      </ion-item>\n    </div>\n  </div>\n\n  <ion-row class=\"header-row\">\n    <ion-col size=\"4\" class=\"center-text\" (click)=\"sortBy('name')\">\n      <ion-item lines=\"none\" class=\"ion-text-center\">\n        <ion-label>Name</ion-label>\n        <ion-icon\n          name=\"arrow-down\"\n          *ngIf=\"sortDirection === 0 && sortKey === 'name'\"\n        ></ion-icon>\n        <ion-icon\n          name=\"arrow-up\"\n          *ngIf=\"sortDirection === 1 && sortKey === 'name'\"\n        ></ion-icon>\n      </ion-item>\n    </ion-col>\n    <ion-col size=\"2\" class=\"center-text\" (click)=\"sortBy('ignored')\">\n      <ion-item lines=\"none\" class=\"ion-text-center\">\n        <ion-label>Ign</ion-label>\n        <ion-icon\n          name=\"arrow-down\"\n          *ngIf=\"sortDirection === 0 && sortKey === 'ignored'\"\n        ></ion-icon>\n        <ion-icon\n          name=\"arrow-up\"\n          *ngIf=\"sortDirection === 1 && sortKey === 'ignored'\"\n        ></ion-icon>\n      </ion-item>\n    </ion-col>\n    <ion-col size=\"3\" class=\"center-text\" (click)=\"sortBy('average')\">\n      <ion-item lines=\"none\" class=\"ion-text-center\">\n        <ion-label>Avg</ion-label>\n        <ion-icon\n          name=\"arrow-down\"\n          *ngIf=\"sortDirection === 0 && sortKey === 'average'\"\n        ></ion-icon>\n        <ion-icon\n          name=\"arrow-up\"\n          *ngIf=\"sortDirection === 1 && sortKey === 'average'\"\n        ></ion-icon>\n      </ion-item>\n    </ion-col>\n    <ion-col size=\"3\" class=\"center-text\" (click)=\"sortBy('variance')\">\n      <ion-item lines=\"none\" class=\"ion-text-center\">\n        <ion-label>Var</ion-label>\n        <ion-icon\n          name=\"arrow-down\"\n          *ngIf=\"sortDirection === 0 && sortKey === 'variance'\"\n        ></ion-icon>\n        <ion-icon\n          name=\"arrow-up\"\n          *ngIf=\"sortDirection === 1 && sortKey === 'variance'\"\n        ></ion-icon>\n      </ion-item>\n    </ion-col>\n  </ion-row>\n  <ion-row *ngFor=\"let row of filteredGames; let i = index;\" class=\"data-row\">\n    <ion-col size=\"4\"> {{ row.name }} </ion-col>\n    <ion-col size=\"2\" class=\"center-text\"> {{ row.ignored }} </ion-col>\n    <ion-col size=\"3\" class=\"center-text\"> {{ row.average }} </ion-col>\n    <ion-col size=\"3\" class=\"center-text\"> {{ row.variance }} </ion-col>\n  </ion-row>\n</ion-content>\n");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<ion-content>\n  <div class=\"container\">\n    <div id=\"inputs\">\n      <input\n        type=\"text\"\n        placeholder=\"Search...\"\n        (keyup)=\"filterDatatable($event)\"\n      />\n      <ion-item lines=\"none\">\n        <ion-label\n          >{{ baseScores ? \"Base Scores\" : \"Relative Scores\" }}\n        </ion-label>\n        <ion-toggle (ionChange)=\"toggleScores()\" slot=\"start\"></ion-toggle>\n      </ion-item>\n      <ion-item lines=\"none\">\n        <ion-label>Owned</ion-label>\n        <ion-checkbox (ionChange)=\"toggleOwned()\" slot=\"start\"></ion-checkbox>\n      </ion-item>\n    </div>\n  </div>\n\n  <ion-row class=\"header-row\">\n    <ion-col size=\"4\" class=\"center-text\" (click)=\"sortBy('name')\">\n      <ion-item lines=\"none\" class=\"ion-text-center\">\n        <ion-label>Name</ion-label>\n        <ion-icon\n          name=\"arrow-down\"\n          *ngIf=\"sortDirection === 0 && sortKey === 'name'\"\n        ></ion-icon>\n        <ion-icon\n          name=\"arrow-up\"\n          *ngIf=\"sortDirection === 1 && sortKey === 'name'\"\n        ></ion-icon>\n      </ion-item>\n    </ion-col>\n    <ion-col size=\"2\" class=\"center-text\" (click)=\"sortBy('ignored')\">\n      <ion-item lines=\"none\" class=\"ion-text-center\">\n        <ion-label>Ign</ion-label>\n        <ion-icon\n          name=\"arrow-down\"\n          *ngIf=\"sortDirection === 0 && sortKey === 'ignored'\"\n        ></ion-icon>\n        <ion-icon\n          name=\"arrow-up\"\n          *ngIf=\"sortDirection === 1 && sortKey === 'ignored'\"\n        ></ion-icon>\n      </ion-item>\n    </ion-col>\n    <ion-col size=\"3\" class=\"center-text\" (click)=\"sortBy('average')\">\n      <ion-item lines=\"none\" class=\"ion-text-center\">\n        <ion-label>Avg</ion-label>\n        <ion-icon\n          name=\"arrow-down\"\n          *ngIf=\"sortDirection === 0 && sortKey === 'average'\"\n        ></ion-icon>\n        <ion-icon\n          name=\"arrow-up\"\n          *ngIf=\"sortDirection === 1 && sortKey === 'average'\"\n        ></ion-icon>\n      </ion-item>\n    </ion-col>\n    <ion-col size=\"3\" class=\"center-text\" (click)=\"sortBy('variance')\">\n      <ion-item lines=\"none\" class=\"ion-text-center\">\n        <ion-label>Var</ion-label>\n        <ion-icon\n          name=\"arrow-down\"\n          *ngIf=\"sortDirection === 0 && sortKey === 'variance'\"\n        ></ion-icon>\n        <ion-icon\n          name=\"arrow-up\"\n          *ngIf=\"sortDirection === 1 && sortKey === 'variance'\"\n        ></ion-icon>\n      </ion-item>\n    </ion-col>\n  </ion-row>\n  <ion-row *ngFor=\"let row of filteredGames; let i = index;\" class=\"data-row\">\n    <ion-col size=\"4\"> {{ row.name }} </ion-col>\n    <ion-col size=\"2\" class=\"center-text\"> {{ row.ignored }} </ion-col>\n    <ion-col size=\"3\" class=\"center-text\">\n      {{ baseScores ? row.baseAverage : row.relativeAverage }}\n    </ion-col>\n    <ion-col size=\"3\" class=\"center-text\">\n      {{ baseScores ? row.baseVariance : row.relativeVariance }}\n    </ion-col>\n  </ion-row>\n</ion-content>\n");
 
 /***/ }),
 
