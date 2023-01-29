@@ -1,8 +1,6 @@
-$results-background-color: #9DC6C6;
-
 .container {
   width: 100%;
-  background-color: $results-background-color;
+  background-color: var(--ion-color-light-tint);
 }
 
 #inputs {
@@ -23,14 +21,14 @@ ion-label {
 ion-item {
   --min-height: 30px;
   --inner-padding-end: 0px;
-  --color: #fff;
-  --ion-item-background: $results-background-color;
+  --color: var(--ion-background);
+  --ion-item-background: var(--ion-color-light-tint);
 
   font-weight: bold;
 }
 
 .header-row {
-  background-color: $results-background-color;
+  background-color: var(--ion-color-light-tint);
 }
 
 .data-row {
@@ -39,7 +37,7 @@ ion-item {
 }
 
 .data-row:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: var(--ion-color-light-tint);
 }
 
 .center-text {
