@@ -93,9 +93,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ 8806);
 /* harmony import */ var _home_alpha_Projects_games_node_modules_ngtools_webpack_src_loaders_direct_resource_js_results_page_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !./node_modules/@ngtools/webpack/src/loaders/direct-resource.js!./results.page.html */ 7377);
 /* harmony import */ var _results_page_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./results.page.scss */ 4509);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 4001);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ 3252);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 4001);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ 3252);
 /* harmony import */ var _globals__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../globals */ 7130);
+/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../storage */ 5095);
+
 
 
 
@@ -103,106 +105,113 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let ResultsPage = class ResultsPage {
-    constructor(router, globals) {
+    constructor(router, storage, globals) {
         this.router = router;
+        this.storage = storage;
         this.globals = globals;
     }
     ionViewWillEnter() {
-        if (this.globals.games.length === 0) {
-            this.router.navigateByUrl('/home');
-        }
-        this.allowedGames = [];
-        this.filteredGames = [];
-        this.currentFilter = '';
-        this.sortDirection = 1;
-        this.filteringByOwned = false;
-        this.filteringByIgnored = false;
-        this.extraPlayers = this.globals.totalPlayers - this.globals.players.length;
-        this.baseScores = true;
-        for (let i = 0; i < this.globals.games.length; i++) {
-            if (!this.globals.maxPlayers[i] || !this.globals.minPlayers[i]) {
-                continue;
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__awaiter)(this, void 0, void 0, function* () {
+            const savedId = yield this.storage.get('id');
+            if (!savedId) {
+                this.router.navigateByUrl('/welcome');
             }
-            if (this.globals.maxPlayers[i] < this.globals.totalPlayers ||
-                this.globals.minPlayers[i] > this.globals.totalPlayers) {
-                continue;
+            else if (this.globals.games.length === 0) {
+                this.router.navigateByUrl('/home');
             }
-            let baseMax = -1;
-            let relativeMax = -1;
-            let baseMin = 11;
-            let relativeMin = 99999999;
-            let baseAvg = 0;
-            let relativeAvg = 0;
-            let ignore = 0;
-            for (const player of this.globals.players) {
-                const playerIndex = this.globals.allPlayers.indexOf(player);
-                const currentBaseScore = this.globals.baseScores[i][playerIndex];
-                const currentRelativeScore = this.globals.relativeScores[i][playerIndex];
-                if (currentBaseScore === -1) {
-                    ignore++;
+            this.allowedGames = [];
+            this.filteredGames = [];
+            this.currentFilter = '';
+            this.sortDirection = 1;
+            this.filteringByOwned = false;
+            this.filteringByIgnored = false;
+            this.extraPlayers = this.globals.totalPlayers - this.globals.players.length;
+            this.baseScores = true;
+            for (let i = 0; i < this.globals.games.length; i++) {
+                if (!this.globals.maxPlayers[i] || !this.globals.minPlayers[i]) {
                     continue;
                 }
-                baseAvg += currentBaseScore;
-                relativeAvg += currentRelativeScore;
-                if (currentBaseScore < baseMin) {
-                    baseMin = currentBaseScore;
-                }
-                if (currentBaseScore > baseMax) {
-                    baseMax = currentBaseScore;
-                }
-                if (currentRelativeScore < relativeMin) {
-                    relativeMin = currentRelativeScore;
-                }
-                if (currentRelativeScore > relativeMax) {
-                    relativeMax = currentRelativeScore;
-                }
-            }
-            const knownPlayers = this.globals.players.length - ignore;
-            if (knownPlayers > 0) {
-                baseAvg = baseAvg / knownPlayers;
-                relativeAvg = relativeAvg / knownPlayers;
-            }
-            else {
-                baseAvg = -1;
-                relativeAvg = -1;
-            }
-            let baseSumSquares = 0;
-            let relativeSumSquares = 0;
-            for (const player of this.globals.players) {
-                const playerIndex = this.globals.allPlayers.indexOf(player);
-                const currentBaseScore = this.globals.baseScores[i][playerIndex];
-                const currentRelativeScore = this.globals.relativeScores[i][playerIndex];
-                if (currentBaseScore === -1) {
+                if (this.globals.maxPlayers[i] < this.globals.totalPlayers ||
+                    this.globals.minPlayers[i] > this.globals.totalPlayers) {
                     continue;
                 }
-                const baseDiff = baseAvg - currentBaseScore;
-                baseSumSquares += baseDiff * baseDiff;
-                const relativeDiff = relativeAvg - currentRelativeScore;
-                relativeSumSquares += relativeDiff * relativeDiff;
+                let baseMax = -1;
+                let relativeMax = -1;
+                let baseMin = 11;
+                let relativeMin = 99999999;
+                let baseAvg = 0;
+                let relativeAvg = 0;
+                let ignore = 0;
+                for (const player of this.globals.players) {
+                    const playerIndex = this.globals.allPlayers.indexOf(player);
+                    const currentBaseScore = this.globals.baseScores[i][playerIndex];
+                    const currentRelativeScore = this.globals.relativeScores[i][playerIndex];
+                    if (currentBaseScore === -1) {
+                        ignore++;
+                        continue;
+                    }
+                    baseAvg += currentBaseScore;
+                    relativeAvg += currentRelativeScore;
+                    if (currentBaseScore < baseMin) {
+                        baseMin = currentBaseScore;
+                    }
+                    if (currentBaseScore > baseMax) {
+                        baseMax = currentBaseScore;
+                    }
+                    if (currentRelativeScore < relativeMin) {
+                        relativeMin = currentRelativeScore;
+                    }
+                    if (currentRelativeScore > relativeMax) {
+                        relativeMax = currentRelativeScore;
+                    }
+                }
+                const knownPlayers = this.globals.players.length - ignore;
+                if (knownPlayers > 0) {
+                    baseAvg = baseAvg / knownPlayers;
+                    relativeAvg = relativeAvg / knownPlayers;
+                }
+                else {
+                    baseAvg = -1;
+                    relativeAvg = -1;
+                }
+                let baseSumSquares = 0;
+                let relativeSumSquares = 0;
+                for (const player of this.globals.players) {
+                    const playerIndex = this.globals.allPlayers.indexOf(player);
+                    const currentBaseScore = this.globals.baseScores[i][playerIndex];
+                    const currentRelativeScore = this.globals.relativeScores[i][playerIndex];
+                    if (currentBaseScore === -1) {
+                        continue;
+                    }
+                    const baseDiff = baseAvg - currentBaseScore;
+                    baseSumSquares += baseDiff * baseDiff;
+                    const relativeDiff = relativeAvg - currentRelativeScore;
+                    relativeSumSquares += relativeDiff * relativeDiff;
+                }
+                let baseVariance = -1;
+                let relativeVariance = -1;
+                if (knownPlayers > 0) {
+                    baseVariance = baseSumSquares / knownPlayers;
+                    relativeVariance = relativeSumSquares / knownPlayers;
+                }
+                const game = {
+                    name: this.globals.games[i],
+                    baseAverage: baseAvg !== -1 ? baseAvg.toFixed(2) : '-',
+                    relativeAverage: relativeAvg !== -1 ? relativeAvg.toFixed(2) : '-',
+                    baseMaximum: baseMax,
+                    relativeMaximum: relativeMax,
+                    baseMinimum: baseMin,
+                    relativeMinimum: relativeMin,
+                    baseVariance: baseVariance !== -1 ? baseVariance.toFixed(2) : '-',
+                    relativeVariance: relativeVariance !== -1 ? relativeVariance.toFixed(2) : '-',
+                    ignored: (ignore + this.extraPlayers).toFixed(0),
+                    owners: this.globals.owners[i],
+                };
+                this.allowedGames.push(game);
             }
-            let baseVariance = -1;
-            let relativeVariance = -1;
-            if (knownPlayers > 0) {
-                baseVariance = baseSumSquares / knownPlayers;
-                relativeVariance = relativeSumSquares / knownPlayers;
-            }
-            const game = {
-                name: this.globals.games[i],
-                baseAverage: baseAvg !== -1 ? baseAvg.toFixed(2) : '-',
-                relativeAverage: relativeAvg !== -1 ? relativeAvg.toFixed(2) : '-',
-                baseMaximum: baseMax,
-                relativeMaximum: relativeMax,
-                baseMinimum: baseMin,
-                relativeMinimum: relativeMin,
-                baseVariance: baseVariance !== -1 ? baseVariance.toFixed(2) : '-',
-                relativeVariance: relativeVariance !== -1 ? relativeVariance.toFixed(2) : '-',
-                ignored: (ignore + this.extraPlayers).toFixed(0),
-                owners: this.globals.owners[i],
-            };
-            this.allowedGames.push(game);
-        }
-        this.filteredGames = this.allowedGames;
-        this.sortBy('baseAverage');
+            this.filteredGames = this.allowedGames;
+            this.sortBy('baseAverage');
+        });
     }
     filterDatatable(event) {
         const filter = event.target.value.toLowerCase();
@@ -296,11 +305,12 @@ let ResultsPage = class ResultsPage {
     }
 };
 ResultsPage.ctorParameters = () => [
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__.Router },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_5__.Router },
+    { type: _storage__WEBPACK_IMPORTED_MODULE_3__.StorageService },
     { type: _globals__WEBPACK_IMPORTED_MODULE_2__.Globals }
 ];
 ResultsPage = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.Component)({
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_6__.Component)({
         selector: 'app-results',
         template: _home_alpha_Projects_games_node_modules_ngtools_webpack_src_loaders_direct_resource_js_results_page_html__WEBPACK_IMPORTED_MODULE_0__["default"],
         styles: [_results_page_scss__WEBPACK_IMPORTED_MODULE_1__]

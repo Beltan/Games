@@ -33917,11 +33917,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! tslib */ 8806);
 /* harmony import */ var _home_alpha_Projects_games_node_modules_ngtools_webpack_src_loaders_direct_resource_js_home_page_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !./node_modules/@ngtools/webpack/src/loaders/direct-resource.js!./home.page.html */ 2056);
 /* harmony import */ var _home_page_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./home.page.scss */ 968);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 4001);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ 3252);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ 4001);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ 3252);
 /* harmony import */ var _globals__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../globals */ 7130);
-/* harmony import */ var xlsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! xlsx */ 7684);
-/* harmony import */ var xlsx__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(xlsx__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../storage */ 5095);
+/* harmony import */ var xlsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! xlsx */ 7684);
+/* harmony import */ var xlsx__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(xlsx__WEBPACK_IMPORTED_MODULE_4__);
+
 
 
 
@@ -33930,8 +33932,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let HomePage = class HomePage {
-    constructor(router, globals) {
+    constructor(router, storage, globals) {
         this.router = router;
+        this.storage = storage;
         this.players = [];
         this.allPlayers = [];
         this.extraPlayers = 0;
@@ -33939,9 +33942,16 @@ let HomePage = class HomePage {
         this.globals = globals;
     }
     ionViewWillEnter() {
-        if (this.globals.games.length === 0) {
-            this.readExcel();
-        }
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
+            const savedId = yield this.storage.get('id');
+            if (!savedId) {
+                this.router.navigateByUrl('/welcome');
+            }
+            else if (this.globals.games.length === 0) {
+                const url = `https://docs.google.com/spreadsheets/d/${savedId}/export?format=xlsx&id=${savedId}`;
+                this.readExcel(url);
+            }
+        });
     }
     process() {
         if (this.globals.totalPlayers === 0) {
@@ -33975,29 +33985,34 @@ let HomePage = class HomePage {
     hideError() {
         this.errorDisplay = 'none';
     }
-    readExcel() {
+    readExcel(url) {
         const oReq = new XMLHttpRequest();
-        oReq.open('GET', this.globals.url, true);
         oReq.responseType = 'arraybuffer';
+        oReq.open('GET', url, true);
         const that = this;
         oReq.onload = () => {
+            if (oReq.status === 404) {
+                this.globals.unsetId();
+                this.router.navigateByUrl('/welcome?error=true');
+                return;
+            }
             const arraybuffer = oReq.response;
             const data = new Uint8Array(arraybuffer);
             const arr = new Array();
             for (let i = 0; i !== data.length; i++) {
                 arr[i] = String.fromCharCode(data[i]);
             }
-            const workbook = xlsx__WEBPACK_IMPORTED_MODULE_3__.read(arr.join(''), { type: 'binary' });
+            const workbook = xlsx__WEBPACK_IMPORTED_MODULE_4__.read(arr.join(''), { type: 'binary' });
             workbook.SheetNames.forEach((sheetName) => {
-                const rowObject = xlsx__WEBPACK_IMPORTED_MODULE_3__.utils.sheet_to_json(workbook.Sheets[sheetName]);
+                const rowObject = xlsx__WEBPACK_IMPORTED_MODULE_4__.utils.sheet_to_json(workbook.Sheets[sheetName]);
                 switch (sheetName) {
                     case 'User Ratings': {
-                        const players = xlsx__WEBPACK_IMPORTED_MODULE_3__.utils.sheet_to_json(workbook.Sheets[sheetName], {
+                        const players = xlsx__WEBPACK_IMPORTED_MODULE_4__.utils.sheet_to_json(workbook.Sheets[sheetName], {
                             header: 1,
                         })[0];
                         that.globals.setAllPlayers(players);
                         that.globals.allPlayers.shift();
-                        that.allPlayers = that.globals.allPlayers;
+                        that.allPlayers = that.globals.allPlayers.sort();
                         rowObject.forEach((element) => {
                             if (!element.Name) {
                                 return;
@@ -34063,11 +34078,12 @@ let HomePage = class HomePage {
     }
 };
 HomePage.ctorParameters = () => [
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__.Router },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_6__.Router },
+    { type: _storage__WEBPACK_IMPORTED_MODULE_3__.StorageService },
     { type: _globals__WEBPACK_IMPORTED_MODULE_2__.Globals }
 ];
 HomePage = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_6__.Component)({
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_7__.Component)({
         selector: 'app-home',
         template: _home_alpha_Projects_games_node_modules_ngtools_webpack_src_loaders_direct_resource_js_home_page_html__WEBPACK_IMPORTED_MODULE_0__["default"],
         styles: [_home_page_scss__WEBPACK_IMPORTED_MODULE_1__]
@@ -34089,7 +34105,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<ion-content>\n  <div id=\"container\">\n    <div>\n      <ion-label class=\"title\"> Select Players </ion-label>\n\n      <ion-select class=\"center\" multiple (ionChange)=\"onChange($event)\">\n        <ion-select-option *ngFor=\"let player of allPlayers\" value=\"{{player}}\"\n          >{{player}}</ion-select-option\n        >\n      </ion-select>\n\n      <ion-label class=\"subtitle\"> Extra Players </ion-label>\n      <ion-input\n        type=\"number\"\n        min=\"0\"\n        value=\"{{extraPlayers}}\"\n        class=\"center number_input\"\n        (ionChange)=\"onChangeExtraPlayers($event)\"\n      ></ion-input>\n\n      <ion-button (click)=\"process()\"> Process </ion-button>\n\n      <ion-label id=\"error\" [style.display]=\"errorDisplay\">\n        Select at least 1 player</ion-label\n      >\n    </div>\n  </div>\n</ion-content>\n");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<ion-content>\n  <div id=\"container\">\n    <div>\n      <ion-label class=\"title\"> Select Players </ion-label>\n\n      <ion-select class=\"center\" multiple [interfaceOptions]=\"{header: 'Select Players'}\" (ionChange)=\"onChange($event)\">\n        <ion-select-option *ngFor=\"let player of allPlayers\" value=\"{{player}}\"\n          >{{player}}</ion-select-option\n        >\n      </ion-select>\n\n      <ion-label class=\"subtitle\"> Extra Players </ion-label>\n      <ion-input\n        type=\"number\"\n        min=\"0\"\n        value=\"{{extraPlayers}}\"\n        class=\"center number_input\"\n        (ionChange)=\"onChangeExtraPlayers($event)\"\n      ></ion-input>\n\n      <ion-button (click)=\"process()\"> Process </ion-button>\n\n      <ion-label class=\"error\" [style.display]=\"errorDisplay\">\n        Select at least 1 player</ion-label\n      >\n    </div>\n  </div>\n</ion-content>\n");
 
 /***/ }),
 
@@ -34100,7 +34116,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ ((module) => {
 
 "use strict";
-module.exports = "#container {\n  text-align: center;\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 50%;\n  transform: translateY(-50%);\n}\n#container strong {\n  font-size: 20px;\n  line-height: 26px;\n}\n#container p {\n  font-size: 16px;\n  line-height: 22px;\n  margin: 0;\n}\n#container a {\n  text-decoration: none;\n}\n.center {\n  width: fit-content;\n  margin: auto;\n}\n.number_input {\n  width: 50px;\n}\n.title {\n  font-weight: bold;\n  font-size: 20px;\n}\n.subtitle {\n  font-weight: bold;\n  font-size: 16px;\n}\n#error {\n  color: var(--ion-color-danger);\n  margin-top: 10px;\n  font-size: 14px;\n  position: absolute;\n  left: 50%;\n  transform: translate(-50%);\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImhvbWUucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0Usa0JBQUE7RUFFQSxrQkFBQTtFQUNBLE9BQUE7RUFDQSxRQUFBO0VBQ0EsUUFBQTtFQUNBLDJCQUFBO0FBQUY7QUFFRTtFQUNFLGVBQUE7RUFDQSxpQkFBQTtBQUFKO0FBR0U7RUFDRSxlQUFBO0VBQ0EsaUJBQUE7RUFDQSxTQUFBO0FBREo7QUFJRTtFQUNFLHFCQUFBO0FBRko7QUFNQTtFQUNFLGtCQUFBO0VBQ0EsWUFBQTtBQUhGO0FBS0E7RUFDRSxXQUFBO0FBRkY7QUFLQTtFQUNFLGlCQUFBO0VBQ0EsZUFBQTtBQUZGO0FBS0E7RUFDRSxpQkFBQTtFQUNBLGVBQUE7QUFGRjtBQUtBO0VBQ0UsOEJBQUE7RUFDQSxnQkFBQTtFQUNBLGVBQUE7RUFDQSxrQkFBQTtFQUNBLFNBQUE7RUFDQSwwQkFBQTtBQUZGIiwiZmlsZSI6ImhvbWUucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiI2NvbnRhaW5lciB7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcblxuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGxlZnQ6IDA7XG4gIHJpZ2h0OiAwO1xuICB0b3A6IDUwJTtcbiAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKC01MCUpO1xuXG4gIHN0cm9uZyB7XG4gICAgZm9udC1zaXplOiAyMHB4O1xuICAgIGxpbmUtaGVpZ2h0OiAyNnB4O1xuICB9XG5cbiAgcCB7XG4gICAgZm9udC1zaXplOiAxNnB4O1xuICAgIGxpbmUtaGVpZ2h0OiAyMnB4O1xuICAgIG1hcmdpbjogMDtcbiAgfVxuXG4gIGEge1xuICAgIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcbiAgfVxufVxuXG4uY2VudGVyIHtcbiAgd2lkdGg6IGZpdC1jb250ZW50O1xuICBtYXJnaW46IGF1dG87XG59XG4ubnVtYmVyX2lucHV0IHtcbiAgd2lkdGg6IDUwcHg7XG59XG5cbi50aXRsZSB7XG4gIGZvbnQtd2VpZ2h0OiBib2xkO1xuICBmb250LXNpemU6IDIwcHg7XG59XG5cbi5zdWJ0aXRsZSB7XG4gIGZvbnQtd2VpZ2h0OiBib2xkO1xuICBmb250LXNpemU6IDE2cHg7XG59XG5cbiNlcnJvciB7XG4gIGNvbG9yOiB2YXIoLS1pb24tY29sb3ItZGFuZ2VyKTtcbiAgbWFyZ2luLXRvcDogMTBweDtcbiAgZm9udC1zaXplOiAxNHB4O1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGxlZnQ6IDUwJTtcbiAgdHJhbnNmb3JtOiB0cmFuc2xhdGUoLTUwJSk7XG59XG4iXX0= */";
+module.exports = ".number_input {\n  width: 50px;\n}\n\n.title {\n  font-weight: bold;\n  font-size: 20px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImhvbWUucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsV0FBQTtBQUNGOztBQUVBO0VBQ0UsaUJBQUE7RUFDQSxlQUFBO0FBQ0YiLCJmaWxlIjoiaG9tZS5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIubnVtYmVyX2lucHV0IHtcbiAgd2lkdGg6IDUwcHg7XG59XG5cbi50aXRsZSB7XG4gIGZvbnQtd2VpZ2h0OiBib2xkO1xuICBmb250LXNpemU6IDIwcHg7XG59Il19 */";
 
 /***/ }),
 
