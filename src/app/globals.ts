@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
+import { StorageService } from './storage';
 
 @Injectable()
 export class Globals {
-  id = '1VlPq-OnGEbIH6K-Azi_igEGTVZ4bI0DSLREn6Q0zR-E';
-  url = `https://docs.google.com/spreadsheets/d/${this.id}/export?format=xlsx&id=${this.id}`;
-
   allPlayers = [];
   games = [];
   baseScores = [];
@@ -16,7 +14,15 @@ export class Globals {
   players = [];
   totalPlayers = 0;
 
-  constructor() {}
+  constructor(private storage: StorageService) {}
+
+  public async setId(id) {
+    await this.storage.set('id', id);
+  }
+
+  public async unsetId() {
+    await this.storage.remove('id');
+  }
 
   setPlayers(players) {
     this.players = players;

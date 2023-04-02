@@ -1,0 +1,19 @@
+<ion-content>
+  <div id="container">
+    <form (ngSubmit)="process()">
+      <ion-label class="subtitle"> Google Sheets ID </ion-label>
+      <ion-input
+        type="string"
+        name="id"
+        [(ngModel)]="id"
+        class="center text_input"
+      ></ion-input>
+
+      <ion-button type="submit"> Process </ion-button>
+
+      <ion-label class="error" [style.display]="errorDisplay">
+        {{ errorMessage }}</ion-label
+      >
+    </form>
+  </div>
+</ion-content>

@@ -3,7 +3,7 @@
     <div>
       <ion-label class="title"> Select Players </ion-label>
 
-      <ion-select class="center" multiple (ionChange)="onChange($event)">
+      <ion-select class="center" multiple [interfaceOptions]="{header: 'Select Players'}" (ionChange)="onChange($event)">
         <ion-select-option *ngFor="let player of allPlayers" value="{{player}}"
           >{{player}}</ion-select-option
         >
@@ -20,7 +20,7 @@
 
       <ion-button (click)="process()"> Process </ion-button>
 
-      <ion-label id="error" [style.display]="errorDisplay">
+      <ion-label class="error" [style.display]="errorDisplay">
         Select at least 1 player</ion-label
       >
     </div>

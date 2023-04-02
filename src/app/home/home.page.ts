@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Globals } from '../globals';
+import { StorageService } from '../storage';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -16,13 +17,22 @@ export class HomePage {
   extraPlayers = 0;
   errorDisplay = 'none';
 
-  constructor(private router: Router, globals: Globals) {
+  constructor(
+    private router: Router,
+    private storage: StorageService,
+    globals: Globals
+  ) {
     this.globals = globals;
   }
 
-  ionViewWillEnter() {
-    if (this.globals.games.length === 0) {
-      this.readExcel();
+  async ionViewWillEnter() {
+    const savedId = await this.storage.get('id');
+
+    if (!savedId) {
+      this.router.navigateByUrl('/welcome');
+    } else if (this.globals.games.length === 0) {
+      const url = `https://docs.google.com/spreadsheets/d/${savedId}/export?format=xlsx&id=${savedId}`;
+      this.readExcel(url);
     }
   }
 
@@ -65,12 +75,17 @@ export class HomePage {
     this.errorDisplay = 'none';
   }
 
-  readExcel() {
+  readExcel(url) {
     const oReq = new XMLHttpRequest();
-    oReq.open('GET', this.globals.url, true);
     oReq.responseType = 'arraybuffer';
+    oReq.open('GET', url, true);
     const that = this;
     oReq.onload = () => {
+      if (oReq.status === 404) {
+        this.globals.unsetId();
+        this.router.navigateByUrl('/welcome?error=true');
+        return;
+      }
       const arraybuffer = oReq.response;
       const data = new Uint8Array(arraybuffer);
       const arr = new Array();
@@ -93,7 +108,7 @@ export class HomePage {
 
             that.globals.setAllPlayers(players);
             that.globals.allPlayers.shift();
-            that.allPlayers = that.globals.allPlayers;
+            that.allPlayers = that.globals.allPlayers.sort();
 
             rowObject.forEach((element: any) => {
               if (!element.Name) {

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Globals } from '../globals';
+import { StorageService } from '../storage';
 
 @Component({
   selector: 'app-results',
@@ -20,12 +21,20 @@ export class ResultsPage {
   extraPlayers;
   baseScores;
 
-  constructor(private router: Router, globals: Globals) {
+  constructor(
+    private router: Router,
+    private storage: StorageService,
+    globals: Globals
+  ) {
     this.globals = globals;
   }
 
-  ionViewWillEnter() {
-    if (this.globals.games.length === 0) {
+  async ionViewWillEnter() {
+    const savedId = await this.storage.get('id');
+
+    if (!savedId) {
+      this.router.navigateByUrl('/welcome');
+    } else if (this.globals.games.length === 0) {
       this.router.navigateByUrl('/home');
     }
 
