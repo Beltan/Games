@@ -6,7 +6,7 @@
         placeholder="Search..."
         (keyup)="filterDatatable($event)"
       />
-      <ion-item lines="none">
+      <ion-item lines="none" [ngClass]="globals.hasRelativeScores ? 'visible' : 'hidden'">
         <ion-label
           >{{ baseScores ? "Base Scores" : "Relative Scores" }}
         </ion-label>

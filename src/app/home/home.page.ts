@@ -133,6 +133,7 @@ export class HomePage {
             break;
           }
           case 'Relative Ratings': {
+            this.globals.hasRelativeScores = true;
             rowObject.forEach((element: any) => {
               if (!element.Name) {
                 return;

@@ -6,6 +6,7 @@ export class Globals {
   allPlayers = [];
   games = [];
   baseScores = [];
+  hasRelativeScores = false;
   relativeScores = [];
   maxPlayers = [];
   minPlayers = [];

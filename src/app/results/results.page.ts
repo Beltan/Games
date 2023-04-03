@@ -70,8 +70,9 @@ export class ResultsPage {
         const playerIndex = this.globals.allPlayers.indexOf(player);
 
         const currentBaseScore = this.globals.baseScores[i][playerIndex];
-        const currentRelativeScore =
-          this.globals.relativeScores[i][playerIndex];
+        const currentRelativeScore = this.globals.hasRelativeScores
+          ? this.globals.relativeScores[i][playerIndex]
+          : 0;
 
         if (currentBaseScore === -1) {
           ignore++;
@@ -111,8 +112,9 @@ export class ResultsPage {
         const playerIndex = this.globals.allPlayers.indexOf(player);
 
         const currentBaseScore = this.globals.baseScores[i][playerIndex];
-        const currentRelativeScore =
-          this.globals.relativeScores[i][playerIndex];
+        const currentRelativeScore = this.globals.hasRelativeScores
+          ? this.globals.relativeScores[i][playerIndex]
+          : 0;
 
         if (currentBaseScore === -1) {
           continue;
