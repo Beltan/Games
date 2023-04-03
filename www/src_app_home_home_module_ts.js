@@ -34037,6 +34037,7 @@ let HomePage = class HomePage {
                         break;
                     }
                     case 'Relative Ratings': {
+                        this.globals.hasRelativeScores = true;
                         rowObject.forEach((element) => {
                             if (!element.Name) {
                                 return;

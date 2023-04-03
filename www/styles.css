@@ -1389,5 +1389,11 @@ sub {
   left: 50%;
   transform: translate(-50%);
 }
+.visible {
+  display: block;
+}
+.hidden {
+  display: none;
+}
 
 /*# sourceMappingURL=styles.css.map*/

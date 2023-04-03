@@ -180,7 +180,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<ion-content>\n  <div id=\"container\">\n    <form (ngSubmit)=\"process()\">\n      <ion-label class=\"subtitle\"> Google Sheets ID </ion-label>\n      <ion-input\n        type=\"string\"\n        name=\"id\"\n        [(ngModel)]=\"id\"\n        class=\"center text_input\"\n      ></ion-input>\n\n      <ion-button type=\"submit\"> Process </ion-button>\n\n      <ion-label class=\"error\" [style.display]=\"errorDisplay\">\n        {{ errorMessage }}</ion-label\n      >\n    </form>\n  </div>\n</ion-content>\n");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<ion-content>\n  <div id=\"container\">\n    <ion-text id=\"intro\">\n      Enter the id of your Google Sheets. You can find an example <a rel=\"noopener\" target=\"_blank\" href=\"https://docs.google.com/spreadsheets/d/1z_N3red4FqJd7L5psB2ES8KbiMZpAoWj/\">here</a>. The id needed is found at the end of the URL, in the case of the example it would be: 1z_N3red4FqJd7L5psB2ES8KbiMZpAoWj\n      <br/><br/><br/>\n    </ion-text>\n    <form (ngSubmit)=\"process()\">\n      <ion-label class=\"subtitle\"> Google Sheets ID </ion-label>\n      <ion-input\n        type=\"string\"\n        name=\"id\"\n        [(ngModel)]=\"id\"\n        class=\"center text_input\"\n      ></ion-input>\n\n      <ion-button type=\"submit\"> Process </ion-button>\n\n      <ion-label class=\"error\" [style.display]=\"errorDisplay\">\n        {{ errorMessage }}</ion-label\n      >\n    </form>\n  </div>\n</ion-content>\n");
 
 /***/ }),
 
@@ -190,7 +190,7 @@ __webpack_require__.r(__webpack_exports__);
   \*******************************************/
 /***/ ((module) => {
 
-module.exports = ".text_input {\n  width: 350px;\n  font-size: 13px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlbGNvbWUucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksWUFBQTtFQUNBLGVBQUE7QUFDSiIsImZpbGUiOiJ3ZWxjb21lLnBhZ2Uuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi50ZXh0X2lucHV0IHtcbiAgICB3aWR0aDogMzUwcHg7XG4gICAgZm9udC1zaXplOiAxM3B4O1xufSJdfQ== */";
+module.exports = ".text_input {\n  width: 350px;\n  font-size: 13px;\n}\n\n#intro {\n  margin: 0 50px;\n  font-size: 13px;\n  display: inline-block;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlbGNvbWUucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksWUFBQTtFQUNBLGVBQUE7QUFDSjs7QUFFQTtFQUNJLGNBQUE7RUFDQSxlQUFBO0VBQ0EscUJBQUE7QUFDSiIsImZpbGUiOiJ3ZWxjb21lLnBhZ2Uuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi50ZXh0X2lucHV0IHtcbiAgICB3aWR0aDogMzUwcHg7XG4gICAgZm9udC1zaXplOiAxM3B4O1xufVxuXG4jaW50cm8ge1xuICAgIG1hcmdpbjogMCA1MHB4O1xuICAgIGZvbnQtc2l6ZTogMTNweDtcbiAgICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XG59Il19 */";
 
 /***/ })
 

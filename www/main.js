@@ -162,6 +162,7 @@ let Globals = class Globals {
         this.allPlayers = [];
         this.games = [];
         this.baseScores = [];
+        this.hasRelativeScores = false;
         this.relativeScores = [];
         this.maxPlayers = [];
         this.minPlayers = [];
