@@ -713,17 +713,119 @@ body::before {
   white-space: nowrap;
 }
 
-/* ─── Mobile ────────────────────────────────────────────────────────────────── */
-@media (max-width: 540px) {
+/* ─── Responsive ────────────────────────────────────────────────────────────── */
+
+/* Tablet — 541px to 768px */
+@media (min-width: 541px) and (max-width: 768px) {
+  .page { max-width: 100%; }
+
+  .header { padding: 56px 0 28px; }
+  .header h1 { font-size: clamp(2rem, 5.5vw, 2.8rem); }
+
+  .card { padding: 24px; }
+
+  /* table: hide variance column, shrink numeric cols */
   .table-head, .table-row {
-    grid-template-columns: 1fr 52px 80px 68px;
+    grid-template-columns: 1fr 64px 88px 80px;
   }
-  /* hide variance column on small screens */
   .table-head > *:nth-child(4),
   .table-row  > *:nth-child(4) { display: none; }
 
-  .card { padding: 20px; }
-  .header { padding: 48px 0 24px; }
-  .global-controls { top: 10px; right: 10px; }
-  .time-filter { flex-direction: column; align-items: flex-start; }
+  .toolbar { gap: 8px; }
+  .time-filter { flex-wrap: wrap; }
+}
+
+/* Phone — up to 540px */
+@media (max-width: 540px) {
+  /* layout */
+  .app { padding: 0 12px 64px; }
+  .page { max-width: 100%; }
+
+  /* global controls — smaller, tighter */
+  .global-controls {
+    top: 10px;
+    right: 10px;
+    gap: 6px;
+  }
+  .global-controls .btn { padding: 7px 10px; font-size: 11px; }
+
+  /* header */
+  .header { padding: 52px 0 20px; }
+  .header h1 { font-size: clamp(1.8rem, 8vw, 2.4rem); }
+  .header-sub { font-size: 15px; }
+  .header-eyebrow { font-size: 11px; }
+
+  /* cards */
+  .card { padding: 18px 16px; margin-bottom: 12px; }
+  .card-label { font-size: 11px; margin-bottom: 10px; }
+
+  /* connect button stacks below input on small phones */
+  .input-wrap { flex-direction: column; }
+  .input-wrap .btn { width: 100%; justify-content: center; }
+  .input { font-size: 14px; padding: 12px 14px; }
+
+  /* player chips — slightly smaller */
+  .player-chip { font-size: 14px; padding: 7px 14px 7px 10px; }
+  .player-grid { gap: 8px; }
+
+  /* stepper */
+  .stepper-val { font-size: 24px; }
+  .stepper-note { font-size: 14px; }
+
+  /* summary bar wraps gracefully */
+  .summary-bar { font-size: 13px; padding: 12px 14px; gap: 6px; }
+
+  /* home nav */
+  .home-nav { margin-bottom: 20px; }
+  .reload-btn { font-size: 11px; padding: 7px 12px; }
+
+  /* toolbar — stack search above toggles */
+  .toolbar { flex-direction: column; align-items: stretch; gap: 8px; }
+  .toolbar .input { min-width: unset; width: 100%; }
+  .toolbar > .toggle-group,
+  .toolbar > .toggle-standalone { align-self: flex-start; }
+
+  /* time filter */
+  .time-filter { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .time-presets .toggle-btn { padding: 8px 12px; font-size: 11px; }
+
+  /* table — compact 3-column layout: name + no-votes + avg */
+  .table-head, .table-row {
+    grid-template-columns: 1fr 58px 76px;
+    padding: 11px 12px;
+    gap: 2px;
+  }
+  /* hide variance and time columns, keep no-votes + avg */
+  .table-head > *:nth-child(4),
+  .table-row  > *:nth-child(4),
+  .table-head > *:nth-child(5),
+  .table-row  > *:nth-child(5) { display: none; }
+
+  .row-name { font-size: 14px; gap: 7px; }
+  .row-val { font-size: 13px; }
+  .score-pill { font-size: 12px; padding: 2px 8px; }
+  .time-badge { font-size: 11px; }
+
+  /* status + legend */
+  .status-strip { font-size: 12px; }
+  .legend { font-size: 12px; line-height: 1.9; }
+
+  /* how-it-works */
+  .how-list { font-size: 14px; }
+  .how-note { font-size: 14px; }
+
+  /* find games button */
+  .btn-primary { font-size: 13px; }
+}
+
+/* Very small phones — up to 380px */
+@media (max-width: 380px) {
+  .header h1 { font-size: 1.7rem; }
+  .player-chip { font-size: 13px; padding: 6px 12px 6px 9px; }
+  .table-head, .table-row { grid-template-columns: 1fr 72px; padding: 10px 10px; }
+  /* only show game name + avg */
+  .table-head > *:nth-child(n+3),
+  .table-row  > *:nth-child(n+3) { display: none; }
+  .table-head > *:nth-child(2),
+  .table-row  > *:nth-child(2) { display: flex; }
 }
