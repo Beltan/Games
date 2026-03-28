@@ -494,25 +494,29 @@ function ResultsView({ data, selectedPlayers, totalPlayers, onBack, t }) {
           onChange={(e) => setSearch(e.target.value)}
           aria-label={t.search_placeholder}
         />
-        {data.hasRelativeScores && (
-          <div className="toggle-group" role="group" aria-label="Score type">
+        {(data.hasRelativeScores || true) && (
+          <div className="toolbar-toggles">
+            {data.hasRelativeScores && (
+              <div className="toggle-group" role="group" aria-label="Score type">
+                <button
+                  className={`toggle-btn ${mode === "base" ? "active" : ""}`}
+                  onClick={() => { setMode("base"); setSortKey("baseAverage"); }}
+                  aria-pressed={mode === "base"}
+                >{t.score_raw}</button>
+                <button
+                  className={`toggle-btn ${mode === "relative" ? "active" : ""}`}
+                  onClick={() => { setMode("relative"); setSortKey("relativeAverage"); }}
+                  aria-pressed={mode === "relative"}
+                >{t.score_relative}</button>
+              </div>
+            )}
             <button
-              className={`toggle-btn ${mode === "base" ? "active" : ""}`}
-              onClick={() => { setMode("base"); setSortKey("baseAverage"); }}
-              aria-pressed={mode === "base"}
-            >{t.score_raw}</button>
-            <button
-              className={`toggle-btn ${mode === "relative" ? "active" : ""}`}
-              onClick={() => { setMode("relative"); setSortKey("relativeAverage"); }}
-              aria-pressed={mode === "relative"}
-            >{t.score_relative}</button>
+              className={`toggle-standalone ${ownedOnly ? "active" : ""}`}
+              onClick={() => setOwnedOnly((v) => !v)}
+              aria-pressed={ownedOnly}
+            >{t.owned_filter}</button>
           </div>
         )}
-        <button
-          className={`toggle-standalone ${ownedOnly ? "active" : ""}`}
-          onClick={() => setOwnedOnly((v) => !v)}
-          aria-pressed={ownedOnly}
-        >{t.owned_filter}</button>
       </div>
 
       {/* Time filter */}
