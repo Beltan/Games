@@ -624,9 +624,11 @@ export default function App() {
     localStorage.setItem(LS_LANG, lang);
   }, [lang]);
 
-  // Auto-connect on mount if ID saved
+  // Auto-connect on mount — URL param takes priority over localStorage
   useEffect(() => {
-    const saved = localStorage.getItem(LS_ID);
+    const params = new URLSearchParams(window.location.search);
+    const urlId = params.get("id");
+    const saved = urlId || localStorage.getItem(LS_ID);
     if (saved) loadSheet(saved);
   }, []);
 
